@@ -1,0 +1,89 @@
+version: "2"
+volumes:
+  mongo_data:
+    external: true
+  portainer_data:
+    external: true
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: reverse_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+    privileged: true
+  portainer:
+    image: portainer/portainer
+    hostname: "portainer.caym-server.com"
+    container_name: portainer
+    restart: always
+    ports:
+      - 9000:9000
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data portainer/portainer-ce
+    environment:
+      - VIRTUAL_HOST=portainer.caym-server.com
+  mongo:
+    container_name: mongo
+    image: 'mongo'
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  production:
+    restart: always
+    hostname: "production.caym-server.com"
+    container_name: production
+    links:
+      - mongo
+    image: "node:14"
+    working_dir: /home/node/app
+    environment:
+      - VIRTUAL_HOST=production.caym-server.com
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGO_URI=mongodb://mongo/backend-prod
+    volumes:
+      - ./backend:/home/node/app
+    ports:
+      - "3000:3000"
+    command: "npm run prod"
+  test:
+    hostname: "test.caym-server.com"
+    container_name: test
+    links:
+      - mongo
+    image: "node:14"
+    working_dir: /home/node/app
+    environment:
+      - VIRTUAL_HOST=test.caym-server.com
+      - NODE_ENV=test
+      - PORT=4000
+      - MONGO_URI=mongodb://mongo/backend-test
+    volumes:
+      - ./backend:/home/node/app
+    ports:
+      - "4000:4000"
+    command: "npm run test"
+  development:
+    hostname: "development.caym-server.com"
+    container_name: development
+    links:
+      - mongo
+    image: "node:14"
+    working_dir: /home/node/app
+    environment:
+      - VIRTUAL_HOST=development.caym-server.com
+      - NODE_ENV=development
+      - PORT=5000
+      - MONGO_URI=mongodb://mongo/backend-dev
+    volumes:
+      - ./backend:/home/node/app
+    ports:
+      - "5000:5000"
+    command: "npm run dev"
