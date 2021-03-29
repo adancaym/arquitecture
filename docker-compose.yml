@@ -1,4 +1,6 @@
 version: "2"
+
+
 volumes:
   mongo_data:
     external: true
@@ -7,7 +9,7 @@ volumes:
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy
-    container_name: reverse_proxy
+    container_name: reverse_proxy.caym-server.com
     ports:
       - "80:80"
       - "443:443"
@@ -18,7 +20,7 @@ services:
   portainer:
     image: portainer/portainer
     hostname: "portainer.caym-server.com"
-    container_name: portainer
+    container_name: portainer.caym-server.com
     restart: always
     ports:
       - 9000:9000
@@ -29,7 +31,7 @@ services:
     environment:
       - VIRTUAL_HOST=portainer.caym-server.com
   mongo:
-    container_name: mongo
+    container_name: mongo.caym-server.com
     image: 'mongo'
     ports:
       - "27017:27017"
@@ -38,7 +40,7 @@ services:
   production:
     restart: always
     hostname: "production.caym-server.com"
-    container_name: production
+    container_name: production.caym-server.com
     links:
       - mongo
     image: "node:14"
@@ -55,7 +57,7 @@ services:
     command: "npm run prod"
   test:
     hostname: "test.caym-server.com"
-    container_name: test
+    container_name: test.caym-server.com
     links:
       - mongo
     image: "node:14"
@@ -72,7 +74,7 @@ services:
     command: "npm run test"
   development:
     hostname: "development.caym-server.com"
-    container_name: development
+    container_name: development.caym-server.com
     links:
       - mongo
     image: "node:14"

@@ -12,7 +12,7 @@ const requireProcessEnv = (name) => {
 /* istanbul ignore next */
 const dotenv = require('dotenv-safe')
 dotenv.config({
-  path: path.join(__dirname, process.env.NODE_ENV === 'test' ? '../.env.test': process.env.NODE_ENV !== 'production' ? '../.env.development': '../.env'),
+  path: path.join(__dirname, process.env.NODE_ENV === 'test' ? '../.env.test' : process.env.NODE_ENV !== 'production' ? '../.env.development' : '../.env'),
   example: path.join(__dirname, '../.env.example')
 })
 
@@ -38,5 +38,5 @@ const config = {
   }
 }
 
-module.exports = merge(config.all, config[config.all.env], requireProcessEnv)
+module.exports = merge(config.all, config[config.all.env])
 export default module.exports

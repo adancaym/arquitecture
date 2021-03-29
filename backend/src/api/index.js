@@ -29,8 +29,8 @@ const router = new Router()
  * @apiParam {String[]} [fields] Fields to be returned.
  */
 
-router.use('/', (req, res, next)=> {
-  res.send('hol')
+router.use('/', (req, res, next) => {
+  res.send(process.env.NODE_ENV)
 })
 router.use('/users', user)
 router.use('/auth', auth)
