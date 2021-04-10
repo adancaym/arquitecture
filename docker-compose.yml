@@ -9,7 +9,7 @@ volumes:
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy
-    container_name: reverse_proxy.caym-server.com
+    container_name: reverse_proxy-caym-server.com
     ports:
       - "80:80"
       - "443:443"
@@ -19,8 +19,8 @@ services:
     privileged: true
   portainer:
     image: portainer/portainer
-    hostname: "portainer.caym-server.com"
-    container_name: portainer.caym-server.com
+    hostname: "portainer-caym-server.com"
+    container_name: portainer-caym-server.com
     restart: always
     ports:
       - 9000:9000
@@ -29,9 +29,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data portainer/portainer-ce
     environment:
-      - VIRTUAL_HOST=portainer.caym-server.com
+      - VIRTUAL_HOST=portainer-caym-server.com
   mongo:
-    container_name: mongo.caym-server.com
+    container_name: mongo-caym-server.com
     image: 'mongo'
     ports:
       - "27017:27017"
@@ -39,14 +39,14 @@ services:
       - mongo_data:/data/db
   production:
     restart: always
-    hostname: "production.caym-server.com"
-    container_name: production.caym-server.com
+    hostname: "production-caym-server.com"
+    container_name: production-caym-server.com
     links:
       - mongo
     image: "node:14"
     working_dir: /home/node/app
     environment:
-      - VIRTUAL_HOST=production.caym-server.com
+      - VIRTUAL_HOST=production-caym-server.com
       - NODE_ENV=production
       - PORT=3000
       - MONGO_URI=mongodb://mongo/backend-prod
@@ -56,14 +56,14 @@ services:
       - "3000:3000"
     command: "npm run prod"
   test:
-    hostname: "test.caym-server.com"
-    container_name: test.caym-server.com
+    hostname: "test-caym-server.com"
+    container_name: test-caym-server.com
     links:
       - mongo
     image: "node:14"
     working_dir: /home/node/app
     environment:
-      - VIRTUAL_HOST=test.caym-server.com
+      - VIRTUAL_HOST=test-caym-server.com
       - NODE_ENV=test
       - PORT=4000
       - MONGO_URI=mongodb://mongo/backend-test
@@ -73,14 +73,14 @@ services:
       - "4000:4000"
     command: "npm run test"
   development:
-    hostname: "development.caym-server.com"
-    container_name: development.caym-server.com
+    hostname: "development-caym-server.com"
+    container_name: development-caym-server.com
     links:
       - mongo
     image: "node:14"
     working_dir: /home/node/app
     environment:
-      - VIRTUAL_HOST=development.caym-server.com
+      - VIRTUAL_HOST=development-caym-server.com
       - NODE_ENV=development
       - PORT=5000
       - MONGO_URI=mongodb://mongo/backend-dev

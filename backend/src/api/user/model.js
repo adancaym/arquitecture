@@ -39,10 +39,16 @@ const userSchema = new Schema({
   picture: {
     type: String,
     trim: true
+  },
+  account: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
-}, {
+},
+{
   timestamps: true
-})
+}
+)
 
 userSchema.path('email').set(function (email) {
   if (!this.picture || this.picture.indexOf('https://gravatar.com') === 0) {
@@ -78,7 +84,9 @@ userSchema.methods = {
       fields = [...fields, 'email', 'createdAt']
     }
 
-    fields.forEach((field) => { view[field] = this[field] })
+    fields.forEach((field) => {
+      view[field] = this[field]
+    })
 
     return view
   },

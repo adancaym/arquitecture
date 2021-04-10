@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import mongooseKeywords from 'mongoose-keywords'
 
 const tenantSchema = new Schema({
   name: {
@@ -28,6 +29,8 @@ tenantSchema.methods = {
     } : view
   }
 }
+
+tenantSchema.plugin(mongooseKeywords, { paths: ['name'] })
 
 const model = mongoose.model('Tenant', tenantSchema)
 
