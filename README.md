@@ -14,13 +14,13 @@ Docker
 
 ## Services
 
-# Development server
-# Test server
-# Production server
-# OwnCloud server
-# MailHog server
-# Mysql server
-# Redis server
-# Mongo server
-# Reverse Proxy server
-# Portainer server
+### Development server
+### Test server
+### Production server
+### OwnCloud server
+### MailHog server
+### Mysql server
+### Redis server
+### Mongo server
+### Reverse Proxy server
+### Portainer server
