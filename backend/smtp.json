@@ -1,0 +1,11 @@
+{
+  "server name": {
+    "name": "mail-caym-server.com",
+    "host": "mail-caym-server.com",
+    "port": "1025",
+    "email": "adanyanezgonzalez@gmail.com",
+    "username": "adan",
+    "password": "asdasd",
+    "mechanism": "PLAIN"
+  }
+}

@@ -1,13 +1,15 @@
 import { success, notFound } from '../../services/response/'
-import { sendMail } from '../../services/sendgrid'
+import sendgrid from '../../services/sendgrid'
+import mailhog from '../../services/mailhog'
 import { PasswordReset } from '.'
 import { User } from '../user'
+import { env, defaultEmail } from '../../config'
 
 export const create = ({ bodymen: { body: { email, link } } }, res, next) =>
   User.findOne({ email })
     .then(notFound(res))
     .then((user) => user ? PasswordReset.create({ user }) : null)
-    .then((reset) => {
+    .then(async (reset) => {
       if (!reset) return null
       const { user, token } = reset
       link = `${link.replace(/\/$/, '')}/${token}`
@@ -19,9 +21,17 @@ export const create = ({ bodymen: { body: { email, link } } }, res, next) =>
         If you didn't make this request then you can safely ignore this email. :)<br><br>
         &mdash; backend Team
       `
-      return sendMail({ toEmail: email, subject: 'backend - Password Reset', content })
+      let response
+      if (env === 'production') {
+        [response] = sendgrid.sendMail({ toEmail: email, subject: 'backend - Password Reset', content })
+      } else {
+        const configEmail = { from: defaultEmail, to: email, subject: 'backend - Password Reset', text: content }
+        response = await mailhog.sendMail(configEmail)
+        response.statusCode = response.response.includes('250 Ok:') ? 202 : 500
+      }
+      return response
     })
-    .then(([response]) => response ? res.status(response.statusCode).end() : null)
+    .then((response) => response ? res.status(response.statusCode).end() : null)
     .catch(next)
 
 export const show = ({ params: { token } }, res, next) =>

@@ -13,6 +13,13 @@
 	- [Submit password](#submit-password)
 	- [Verify token](#verify-token)
 	
+- [Tenant](#tenant)
+	- [Create tenant](#create-tenant)
+	- [Delete tenant](#delete-tenant)
+	- [Retrieve tenant](#retrieve-tenant)
+	- [Retrieve tenants](#retrieve-tenants)
+	- [Update tenant](#update-tenant)
+	
 - [User](#user)
 	- [Create user](#create-user)
 	- [Delete user](#delete-user)
@@ -118,6 +125,80 @@
 
 	GET /password-resets/:token
 
+
+# Tenant
+
+## Create tenant
+
+
+
+	POST /tenants
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+| name			| 			|  <p>Tenant's name.</p>							|
+
+## Delete tenant
+
+
+
+	DELETE /tenants/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+
+## Retrieve tenant
+
+
+
+	GET /tenants/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+
+## Retrieve tenants
+
+
+
+	GET /tenants
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update tenant
+
+
+
+	PUT /tenants/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+| name			| 			|  <p>Tenant's name.</p>							|
 
 # User
 

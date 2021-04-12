@@ -24,6 +24,8 @@ const config = {
     ip: process.env.IP,
     apiRoot: process.env.API_ROOT || '',
     defaultEmail: requireProcessEnv('DEFAULT_EMAIL_BACKEND'),
+    defaultEmailHost: requireProcessEnv('DEFAULT_EMAIL_HOST_BACKEND'),
+    defaultEmailHostPort: requireProcessEnv('DEFAULT_EMAIL_HOST_PORT_BACKEND'),
     sendgridKey: requireProcessEnv('SENDGRID_KEY'),
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
@@ -38,5 +40,5 @@ const config = {
   }
 }
 
-module.exports = merge(config.all, config[config.all.env])
+module.exports = { ...config.all, ...config[config.all.env] }
 export default module.exports
