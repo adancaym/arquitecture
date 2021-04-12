@@ -6,6 +6,14 @@ volumes:
     external: true
   portainer_data:
     external: true
+  files:
+    driver: local
+  mysql:
+    driver: local
+  backup:
+    driver: local
+  redis:
+    driver: local
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -46,8 +54,10 @@ services:
     image: "node:14"
     working_dir: /home/node/app
     environment:
-      - VIRTUAL_HOST=production-caym-server.com
+      - DEFAULT_EMAIL_HOST_BACKEND=mail-caym-server.com
+      - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
       - NODE_ENV=production
+      - VIRTUAL_HOST=production-caym-server.com
       - PORT=3000
       - MONGO_URI=mongodb://mongo/backend-prod
     volumes:
@@ -63,6 +73,8 @@ services:
     image: "node:14"
     working_dir: /home/node/app
     environment:
+      - DEFAULT_EMAIL_HOST_BACKEND=mail-caym-server.com
+      - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
       - VIRTUAL_HOST=test-caym-server.com
       - NODE_ENV=test
       - PORT=4000
@@ -72,6 +84,20 @@ services:
     ports:
       - "4000:4000"
     command: "npm run test"
+  mail:
+    image: "mailhog/mailhog"
+    hostname: "mail-caym-server.com"
+    container_name: mail-caym-server.com
+    environment:
+      - VIRTUAL_HOST=mail-caym-server.com
+      - MH_OUTGOING_SMTP=/home/smtp/configs.json
+      - MH_SMTP_BIND_ADDR=mail-caym-server.com:1025
+    working_dir: /home/smtp
+    volumes:
+      - ./backend/smtp.json:/home/smtp/configs.json
+    ports:
+      - "1025:1025"
+      - "8025:8025"
   development:
     hostname: "development-caym-server.com"
     container_name: development-caym-server.com
@@ -80,6 +106,8 @@ services:
     image: "node:14"
     working_dir: /home/node/app
     environment:
+      - DEFAULT_EMAIL_HOST_BACKEND=mail-caym-server.com
+      - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
       - VIRTUAL_HOST=development-caym-server.com
       - NODE_ENV=development
       - PORT=5000
@@ -89,3 +117,77 @@ services:
     ports:
       - "5000:5000"
     command: "npm run dev"
+  owncloud:
+    hostname: "owncloud-caym-server.com"
+    container_name: owncloud-caym-server.com
+    image: owncloud/server:10.7
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db-owncloud
+      - redis-owncloud
+    environment:
+      - OWNCLOUD_DOMAIN=localhost:8080
+      - OWNCLOUD_ADMIN_USERNAME=admin
+      - OWNCLOUD_ADMIN_PASSWORD=admin
+      - OWNCLOUD_DB_TYPE=mysql
+      - OWNCLOUD_DB_NAME=owncloud
+      - OWNCLOUD_DB_USERNAME=owncloud
+      - OWNCLOUD_DB_PASSWORD=owncloud
+      - OWNCLOUD_DB_HOST=db-owncloud-caym-server.com
+      - OWNCLOUD_DB_PORT=3306
+      - OWNCLOUD_MYSQL_UTF8MB4=true
+      - OWNCLOUD_REDIS_ENABLED=true
+      - OWNCLOUD_REDIS_HOST=redis-owncloud-caym-server.com
+      - OWNCLOUD_REDIS_PORT=6379
+      - VIRTUAL_HOST=owncloud-caym-server.com
+      - PORT=8080
+    healthcheck:
+      test: [ "CMD", "/usr/bin/healthcheck" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - files:/mnt/data
+  db-owncloud:
+    hostname: "db-owncloud-caym-server.com"
+    container_name: db-owncloud-caym-server.com
+    image: webhippie/mariadb:latest
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=owncloud
+      - MARIADB_USERNAME=owncloud
+      - MARIADB_PASSWORD=owncloud
+      - MARIADB_DATABASE=owncloud
+      - MARIADB_MAX_ALLOWED_PACKET=128M
+      - MARIADB_INNODB_LOG_FILE_SIZE=64M
+      - VIRTUAL_HOST=db-owncloud-caym-server.com
+    healthcheck:
+      test: [ "CMD", "/usr/bin/healthcheck" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+    - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+      - backup:/var/lib/backup
+  redis-owncloud:
+    hostname: "redis-owncloud-caym-server.com"
+    container_name: redis-owncloud-caym-server.com
+    image: webhippie/redis:latest
+    restart: always
+    environment:
+      - REDIS_DATABASES=1
+      - VIRTUAL_HOST=redis-owncloud-caym-server.com
+
+    healthcheck:
+      test: [ "CMD", "/usr/bin/healthcheck" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - redis:/var/lib/redis
+    ports:
+      - "6379:6379"
