@@ -7,6 +7,7 @@ import { errorHandler as queryErrorHandler } from 'querymen'
 import { errorHandler as bodyErrorHandler } from 'bodymen'
 import { env } from '../../config'
 import listEndpoints from 'express-list-endpoints'
+import router from "../../api";
 export default (apiRoot, routes) => {
   const app = express()
 
@@ -16,6 +17,9 @@ export default (apiRoot, routes) => {
     app.use(compression())
     app.use(morgan('dev'))
   }
+  app.get('/', (req, res, next) => {
+    return res.json({ok: true});
+  })
 
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
