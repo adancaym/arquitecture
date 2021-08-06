@@ -2,6 +2,18 @@ import {Router} from 'express'
 import user from './user'
 import auth from './auth'
 import passwordReset from './password-reset'
+import bot from './bot'
+import product from './product'
+import file from './file'
+import message from './message'
+import shop from './shop'
+import photo from './photo'
+
+var URLSafeBase64 = require('urlsafe-base64');
+
+const vpk = require('../../vpk.json');
+
+
 
 const router = new Router()
 
@@ -32,6 +44,16 @@ const router = new Router()
 router.use('/users', user)
 router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
+router.use('/bots', bot)
+router.use('/products', product)
+router.use('/files', file)
+router.use('/messages', message)
+router.use('/shops', shop)
+router.use('/photos', photo)
+
+router.get('/key', (req, res, next) => {
+  res.send(URLSafeBase64.decode(vpk.publicKey));
+})
 
 
 export default router

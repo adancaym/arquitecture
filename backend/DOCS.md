@@ -8,10 +8,31 @@
 	- [Authenticate with Github](#authenticate-with-github)
 	- [Authenticate with Google](#authenticate-with-google)
 	
+- [Bot](#bot)
+	- [Create bot](#create-bot)
+	- [Delete bot](#delete-bot)
+	- [Retrieve bot](#retrieve-bot)
+	- [Retrieve bots](#retrieve-bots)
+	- [Update bot](#update-bot)
+	
+- [File](#file)
+	- [Create file](#create-file)
+	- [Delete file](#delete-file)
+	- [Retrieve file](#retrieve-file)
+	- [Retrieve files](#retrieve-files)
+	- [Update file](#update-file)
+	
 - [PasswordReset](#passwordreset)
 	- [Send email](#send-email)
 	- [Submit password](#submit-password)
 	- [Verify token](#verify-token)
+	
+- [Product](#product)
+	- [Create product](#create-product)
+	- [Delete product](#delete-product)
+	- [Retrieve product](#retrieve-product)
+	- [Retrieve products](#retrieve-products)
+	- [Update product](#update-product)
 	
 - [Tenant](#tenant)
 	- [Create tenant](#create-tenant)
@@ -90,6 +111,164 @@
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>Google user accessToken.</p>							|
 
+# Bot
+
+## Create bot
+
+
+
+	POST /bots
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+| name			| 			|  <p>Bot's name.</p>							|
+| route			| 			|  <p>Bot's route.</p>							|
+
+## Delete bot
+
+
+
+	DELETE /bots/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+
+## Retrieve bot
+
+
+
+	GET /bots/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+
+## Retrieve bots
+
+
+
+	GET /bots
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update bot
+
+
+
+	PUT /bots/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>master access token.</p>							|
+| name			| 			|  <p>Bot's name.</p>							|
+| route			| 			|  <p>Bot's route.</p>							|
+
+# File
+
+## Create file
+
+
+
+	POST /files
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| file			| 			|  <p>File's file.</p>							|
+| ext			| 			|  <p>File's ext.</p>							|
+| name			| 			|  <p>File's name.</p>							|
+| size			| 			|  <p>File's size.</p>							|
+| mime			| 			|  <p>File's mime.</p>							|
+
+## Delete file
+
+
+
+	DELETE /files/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve file
+
+
+
+	GET /files/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve files
+
+
+
+	GET /files
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update file
+
+
+
+	PUT /files/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| file			| 			|  <p>File's file.</p>							|
+| ext			| 			|  <p>File's ext.</p>							|
+| name			| 			|  <p>File's name.</p>							|
+| size			| 			|  <p>File's size.</p>							|
+| mime			| 			|  <p>File's mime.</p>							|
+
 # PasswordReset
 
 ## Send email
@@ -125,6 +304,80 @@
 
 	GET /password-resets/:token
 
+
+# Product
+
+## Create product
+
+
+
+	POST /products
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| name			| 			|  <p>Product's name.</p>							|
+
+## Delete product
+
+
+
+	DELETE /products/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve product
+
+
+
+	GET /products/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve products
+
+
+
+	GET /products
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update product
+
+
+
+	PUT /products/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| name			| 			|  <p>Product's name.</p>							|
 
 # Tenant
 
