@@ -103,7 +103,7 @@ services:
     container_name: development-caym-server.com
     links:
       - mongo
-    image: "node:14"
+    image: "igabriele/docker-compose-puppeteer"
     working_dir: /home/node/app
     environment:
       - DEFAULT_EMAIL_HOST_BACKEND=mail-caym-server.com

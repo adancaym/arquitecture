@@ -3,10 +3,12 @@ import cors from 'cors'
 import compression from 'compression'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
-import { errorHandler as queryErrorHandler } from 'querymen'
-import { errorHandler as bodyErrorHandler } from 'bodymen'
-import { env } from '../../config'
+import {errorHandler as queryErrorHandler} from 'querymen'
+import {errorHandler as bodyErrorHandler} from 'bodymen'
+import {env} from '../../config'
 import listEndpoints from 'express-list-endpoints'
+
+
 export default (apiRoot, routes) => {
   const app = express()
 
@@ -16,12 +18,10 @@ export default (apiRoot, routes) => {
     app.use(compression())
     app.use(morgan('dev'))
   }
-
-  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.urlencoded({extended: false}))
   app.use(bodyParser.json())
   app.use(apiRoot, routes)
   app.use(queryErrorHandler())
   app.use(bodyErrorHandler())
-  if (env !== 'test')console.table(listEndpoints(app))
   return app
 }
