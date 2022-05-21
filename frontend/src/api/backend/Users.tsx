@@ -6,6 +6,8 @@ import {UserCreate, UserFull} from "../Types";
 import {EntityHtmlHelper} from "../core/EntityHtmlHelper";
 import {Groups} from "./Groups";
 import {ArrayObjectReducer} from "../core/FieldReducers";
+import {Suscriptions} from "./Suscriptions";
+
 
 export class Users extends Controller<UserFull, UserCreate> {
     forms: FormHelper<UserCreate>
@@ -29,13 +31,21 @@ export class Users extends Controller<UserFull, UserCreate> {
             },
             validationSchema: Yup.object({
                 email: Yup.string().email().required(),
-                name: Yup.string().min(3).required()
+                name: Yup.string().min(3).required(),
+                groups: Yup.array()
             })
         });
         this.table = new EntityHtmlHelper<UserFull>([
             {type: 'id', key: 'id', label: 'id'},
             {type: 'text', key: 'email', label: 'email'},
             {type: 'text', key: 'name', label: 'Nombre'},
+            {
+                type: 'arraySelect',
+                key: 'subscriptions',
+                label: 'Subscripciones',
+                options: () => new Suscriptions().options(),
+                reducer: (o) => <ArrayObjectReducer array={o.subscriptions}/>
+            },
             {
                 type: 'arraySelect',
                 key: 'groups',
@@ -61,7 +71,8 @@ export class Users extends Controller<UserFull, UserCreate> {
             password: '',
             role: 'user',
             id: object.id,
-            groups: object.groups.map(e => e.id)
+            groups: object.groups.map(e => e.id),
+            subscriptions: object.subscriptions.map(e => e.id)
         }
     }
 }

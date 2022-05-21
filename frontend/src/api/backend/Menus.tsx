@@ -19,7 +19,7 @@ export class Menus extends Controller<MenuResponse, MenuCreate> {
                 key: 'icon',
                 label: 'Icon',
                 reducer: (o) => <i className={o.icon}/>,
-                options: () => new Promise(resolve => resolve(icons))
+                options: () => new Promise(resolve => resolve(icons.map(icon => ({name: icon, value: icon})))),
             },
             {
                 type: 'arraySelect',
@@ -49,7 +49,6 @@ export class Menus extends Controller<MenuResponse, MenuCreate> {
                 path: '',
 
             },
-            //onSubmit: (values: MenuCreate) => this.create<MenuResponse, MenuCreate>(values),
             onSubmit: (values: MenuCreate) => {
                 if (values.id) {
                     return this.update(values.id, values)
@@ -60,7 +59,7 @@ export class Menus extends Controller<MenuResponse, MenuCreate> {
             validationSchema: Yup.object({
                 name: Yup.string().min(3).required(),
                 icon: Yup.string().required(),
-                path: Yup.string().min(1).required()
+                path: Yup.string()
             })
         })
     }

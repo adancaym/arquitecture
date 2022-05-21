@@ -14,6 +14,7 @@ export class Controller<R extends { id: string }, E> extends BackendConsumer {
     }
 
     convert(object: R): E {
-        return {} as E;
+        throw Error('no definiste la conversion de response a create')
     }
+
 }

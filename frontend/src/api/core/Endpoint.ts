@@ -1,5 +1,11 @@
 export interface IOptions {
-    params: any;
+    params: {
+        fields?: string
+        page?:  string;
+        limit?: string;
+        sort?: string;
+        q?: string;
+    };
 }
 
 export class Endpoint {

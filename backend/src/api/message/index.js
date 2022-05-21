@@ -4,7 +4,7 @@ import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
 import {create, index, show, update, destroy, indexFromTo} from './controller'
 import { schema } from './model'
-import {useSocketIo} from "../../services/socketIo/io";
+import {useSocketIo} from '../../services/socketIo/io';
 export Message, { schema } from './model'
 
 const router = new Router()

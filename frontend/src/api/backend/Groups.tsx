@@ -21,7 +21,7 @@ export class Groups extends Controller<GroupResponse, GroupCreate> {
                 key: 'icon',
                 label: 'Icon',
                 reducer: (o) => <i className={o.icon}/>,
-                options: () => new Promise(resolve => resolve(icons))
+                options: () => new Promise(resolve => resolve(icons.map(icon => ({name: icon, value: icon})))),
             },
             {
                 type: 'arraySelect',

@@ -1,5 +1,5 @@
 import { ApiConsumer, ResponseFormat } from "./ApiConsumer";
-import { Endpoint } from "./Endpoint";
+import {Endpoint, IOptions} from "./Endpoint";
 import { OptionsFieldEntityHtmlHelper } from './EntityHtmlHelper';
 
 export class BackendConsumer extends ApiConsumer {
@@ -48,12 +48,13 @@ export class BackendConsumer extends ApiConsumer {
             );
     }
 
-    list<R>(): Promise<ResponseFormat<R>> {
+    list<R>(params?:IOptions): Promise<ResponseFormat<R>> {
         return super
             .list<R>(
                 this.useQueryParams ? this.pagination.getParams() : undefined,
                 {
-                    headers: { 'Authorization': this.getAccessToken() }
+                    headers: { 'Authorization': this.getAccessToken() },
+                        ...{...params}
                 }
             );
     }
@@ -68,12 +69,12 @@ export class BackendConsumer extends ApiConsumer {
                 }
             );
     }
-    options<R extends { name: string, id: string }>(): Promise<Array<OptionsFieldEntityHtmlHelper>> {
+    options<R extends { name: string, id: string }>(params?: IOptions): Promise<Array<OptionsFieldEntityHtmlHelper>> {
         this.pagination.page = 1;
         this.pagination.limit = 1;
-        return this.list<R>().then(r => {
+        return this.list<R>(params).then(r => {
             this.pagination.limit = r.count
-            return this.list<R>()
+            return this.list<R>(params)
                 .then(r => r.rows.map((e: R) => {
                     const option: OptionsFieldEntityHtmlHelper = {
                         name: e.name,

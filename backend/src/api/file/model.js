@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import mongooseKeywords from "mongoose-keywords";
 
 const fileSchema = new Schema({
   file: {
@@ -43,6 +44,8 @@ fileSchema.methods = {
     } : view
   }
 }
+
+fileSchema.plugin(mongooseKeywords, { paths: ['file', 'name', 'mime'] })
 
 const model = mongoose.model('File', fileSchema)
 

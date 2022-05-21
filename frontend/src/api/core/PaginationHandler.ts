@@ -14,12 +14,12 @@ export class PaginationHandler {
     }
 
     getParams(): IOptions {
-        let result;
+        let result: IOptions;
         if (this.q) {
             result = {
                 params: {
-                    page: this.page,
-                    limit: this.limit,
+                    page: this.page.toString(),
+                    limit: this.limit.toString(),
                     sort: this.sort,
                     q: this.q
                 }
@@ -27,8 +27,8 @@ export class PaginationHandler {
         } else {
             result = {
                 params: {
-                    page: this.page,
-                    limit: this.limit,
+                    page: this.page.toString(),
+                    limit: this.limit.toString(),
                     sort: this.sort,
                 }
             }

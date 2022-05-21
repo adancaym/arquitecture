@@ -1,12 +1,12 @@
 export interface IForm<E> {
     initialValues: E;
-    onSubmit: (data: E) => void;
+    onSubmit: (data: E) => Promise<void>;
     validationSchema: any;
 }
 
 export class FormHelper<E> implements IForm<E> {
     initialValues: E;
-    onSubmit: (data: E) => void;
+    onSubmit: (data: E) => Promise<void>;
     validationSchema: any;
 
     constructor({ initialValues, onSubmit, validationSchema }: IForm<E>) {

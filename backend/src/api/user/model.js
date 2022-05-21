@@ -4,8 +4,7 @@ import randtoken from 'rand-token'
 import mongoose, { Schema } from 'mongoose'
 import mongooseKeywords from 'mongoose-keywords'
 import { env } from '../../config'
-
-const roles = ['user', 'admin']
+import { roles } from '../catalogs/staticCatalogs'
 
 const userSchema = new Schema({
   email: {
@@ -40,10 +39,18 @@ const userSchema = new Schema({
     type: String,
     trim: true
   },
-  account: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  }
+  groups: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Groups'
+    }
+  ],
+  subscriptions: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Suscription'
+    }
+  ]
 },
 {
   timestamps: true
@@ -78,15 +85,16 @@ userSchema.pre('save', function (next) {
 userSchema.methods = {
   view (full) {
     const view = {}
-    let fields = ['id', 'name', 'picture']
+    let fields = ['id', 'name', 'email', 'picture', 'role', 'groups', 'subscriptions']
 
     if (full) {
-      fields = [...fields, 'email', 'createdAt']
+      fields = [...fields, 'createdAt']
     }
 
     fields.forEach((field) => {
       view[field] = this[field]
     })
+    view.groups = this.groups
 
     return view
   },

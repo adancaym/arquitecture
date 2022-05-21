@@ -1,19 +1,22 @@
-import {Router} from 'express'
+import { Router } from 'express'
 import user from './user'
 import auth from './auth'
 import passwordReset from './password-reset'
-import bot from './bot'
-import product from './product'
 import file from './file'
 import message from './message'
-import shop from './shop'
-import photo from './photo'
+import menu from './menu'
+import groups from './groups'
+import provider from './provider'
+import suscription from './suscription'
+import processs from './process'
+import catalogs from './catalogs'
+import srcCollection from './srcCollection'
+import asset from './asset'
+import wallet from './wallet'
 
-var URLSafeBase64 = require('urlsafe-base64');
+var URLSafeBase64 = require('urlsafe-base64')
 
-const vpk = require('../../vpk.json');
-
-
+const vpk = require('../../vpk.json')
 
 const router = new Router()
 
@@ -41,19 +44,27 @@ const router = new Router()
  * @apiParam {String[]} [fields] Fields to be returned.
  */
 
+
+
+router.get("/", (req, res) => res.json({ holi: process.pid}))
+
 router.use('/users', user)
 router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
-router.use('/bots', bot)
-router.use('/products', product)
 router.use('/files', file)
 router.use('/messages', message)
-router.use('/shops', shop)
-router.use('/photos', photo)
+router.use('/menus', menu)
+router.use('/groups', groups)
+router.use('/providers', provider)
+router.use('/suscriptions', suscription)
+router.use('/processes', processs)
+router.use('/catalogs', catalogs)
+router.use('/srcCollections', srcCollection)
+router.use('/assets', asset)
+router.use('/wallets', wallet)
 
 router.get('/key', (req, res, next) => {
-  res.send(URLSafeBase64.decode(vpk.publicKey));
+  res.send(URLSafeBase64.decode(vpk.publicKey))
 })
-
 
 export default router

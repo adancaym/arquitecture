@@ -11,10 +11,6 @@ const server = http.createServer(app)
 
 socketIo(server)
 
-
-const fb = require('./bots/facebook')
-fb.registerEvents()
-
 if (mongo.uri) {
   mongoose.connect(mongo.uri).then(() => {
     console.log('Connection Moongo success')

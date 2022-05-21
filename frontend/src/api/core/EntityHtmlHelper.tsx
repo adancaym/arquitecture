@@ -3,6 +3,12 @@ export interface TypeFieldText {
     key: string;
     label: string;
 }
+export interface TypeFieldTable<R> {
+    type: 'table',
+    key: string;
+    label: string;
+    reducer: (e: R) => JSX.Element;
+}
 
 export interface TypeFieldId {
     type: 'id',
@@ -16,16 +22,18 @@ export interface TypeFieldNumber {
     label: string;
 }
 
-export interface TypeFieldPassword {
+export interface TypeFieldPassword<R> {
     type: 'password',
     key: string;
     label: string;
+    reducer?: (e: R) => JSX.Element;
 }
 
-export interface TypeFieldReadOnlyInTable {
+export interface TypeFieldReadOnlyInTable<R> {
     type: 'readOnlyInTable',
     key: string;
     label: string;
+    reducer?: (e: R) => JSX.Element;
 }
 
 export interface TypeFieldCheckbox<R> {
@@ -70,7 +78,14 @@ export interface TypeFieldIcon<R> {
     key: string;
     label: string;
     reducer: (e: R) => JSX.Element;
-    options: () => Promise<Array<string>>
+    options: () => Promise<Array<OptionsFieldEntityHtmlHelper>>
+}
+export interface TypeFieldArrayString<R> {
+    type: 'arrayString',
+    key: string;
+    label: string;
+    reducer: (e: R) => JSX.Element;
+    options: (e: Array<string>) => Array<OptionsFieldEntityHtmlHelper>
 }
 
 export interface OptionsFieldEntityHtmlHelper {
@@ -82,14 +97,16 @@ export type FieldEntityHtmlHelper<R> =
     TypeFieldText
     | TypeFieldId
     | TypeFieldNumber
-    | TypeFieldPassword
-    | TypeFieldReadOnlyInTable
+    | TypeFieldPassword<R>
+    | TypeFieldReadOnlyInTable<R>
     | TypeFieldCheckbox<R>
     | TypeFieldDate<R>
     | TypeFieldDateReadOnly<R>
     | TypeFieldSelect<R>
     | TypeFieldarraySelect<R>
     | TypeFieldIcon<R>
+    | TypeFieldArrayString<R>
+    | TypeFieldTable<R>
 
 export class EntityHtmlHelper<R> {
     fields: Array<FieldEntityHtmlHelper<R>>;
