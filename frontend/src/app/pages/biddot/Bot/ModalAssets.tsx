@@ -11,7 +11,7 @@ interface ModalAssetsProps {
     className?: string
 }
 
-export const ModalAssets = ({assets, count, title, className='btn btn-info btn-sm'}: ModalAssetsProps) => {
+export const ModalAssets = ({assets, count, title, className='btn btn-info btn-sm fa fa-eye'}: ModalAssetsProps) => {
     const [show, setShow] = useState<boolean>(false)
     return <Modal
         title={title}

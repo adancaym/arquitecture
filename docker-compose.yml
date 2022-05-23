@@ -25,7 +25,7 @@ services:
     volumes:
       - ./templates:/etc/nginx/templates
     depends_on:
-      - development
+      - backend
     ports:
       - "5000:5000"
     environment:
@@ -35,7 +35,6 @@ services:
       - INSTANCE_PORT=5001
     networks:
       - shvl-net
-
   mongo:
     container_name: mongo-caym-server.com
     image: 'mongo'
@@ -61,7 +60,7 @@ services:
       - "8025:8025"
     networks:
       - shvl-net
-  development:
+  backend:
     env_file:
       - ./backend/.env.development
     hostname: "development-caym-server.com"
@@ -84,11 +83,11 @@ services:
     command: "npm run dev"
     networks:
       - shvl-net
-  webapp-dev:
+  frontend:
     restart: always
     hostname: "app-development-caym-server.com"
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
     environment:
       CHOKIDAR_USEPOLLING: "true"
@@ -106,9 +105,22 @@ services:
     networks:
       - shvl-net
     depends_on:
-      - development
+      - backend
+      - nginx-balancer
       - mongo
       - mail
+      - nginx-proxy
+  cron-jobs:
+    hostname: "cron-jobs-caym-server.com"
+    build:
+      context: ./cron_jobs
+      dockerfile: ./Dockerfile
+    container_name: cron-jobs
+    networks:
+      - shvl-net
+    depends_on:
+      - backend
+      - nginx-balancer
       - nginx-proxy
 networks:
   shvl-net:

@@ -1,12 +1,12 @@
 import {Crud} from "../../components/Crud";
 import {Menus} from "../../api/backend/Menus";
 import {
-    AssetCreate, AssetResponse,
+    AssetCreate, AssetResponse, BidCreate, BidResponse,
     CollectionCreate, CollectionResponse,
     GroupCreate,
     GroupResponse,
     MenuCreate,
-    MenuResponse, ProcessCreate, ProcessResponse,
+    MenuResponse, PlacementCreate, PlacementResponse, ProcessCreate, ProcessResponse,
     ProviderCreate,
     ProviderResponse, SuscriptionCreate, SuscriptionResponse,
     UserCreate,
@@ -20,6 +20,8 @@ import {Processes} from "../../api/backend/Processes";
 import {Collections} from "../../api/backend/Collections";
 import {Assets} from "../../api/backend/Assets";
 import {Wallets} from "../../api/backend/Wallets";
+import {Bids} from "../../api/backend/Bids";
+import {Placements} from "../../api/backend/Placements";
 
 export const CrudMenus = () => <Crud<Menus, MenuResponse, MenuCreate> controller={new Menus()}/>
 export const CrudUsers = () => <Crud<Users, UserFull, UserCreate> controller={new Users()}/>
@@ -30,3 +32,5 @@ export const CrudProcesses = () => <Crud<Processes, ProcessResponse, ProcessCrea
 export const CrudCollections = () => <Crud<Collections, CollectionResponse, CollectionCreate> controller={new Collections()}/>
 export const CrudAssets = () => <Crud<Assets, AssetResponse, AssetCreate> controller={new Assets()}/>
 export const CrudWallets= () => <Crud<Wallets, WalletResponse, WalletCreate> controller={new Wallets()}/>
+export const CrudBids= () => <Crud<Bids, BidResponse, BidCreate> controller={new Bids()}/>
+export const CrudPlacements= () => <Crud<Placements, PlacementResponse, PlacementCreate> controller={new Placements()}/>

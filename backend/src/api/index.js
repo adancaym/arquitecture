@@ -13,6 +13,8 @@ import catalogs from './catalogs'
 import srcCollection from './srcCollection'
 import asset from './asset'
 import wallet from './wallet'
+import bid from './bid'
+import placement from './placement'
 
 var URLSafeBase64 = require('urlsafe-base64')
 
@@ -62,6 +64,8 @@ router.use('/catalogs', catalogs)
 router.use('/srcCollections', srcCollection)
 router.use('/assets', asset)
 router.use('/wallets', wallet)
+router.use('/bids', bid)
+router.use('/placements', placement)
 
 router.get('/key', (req, res, next) => {
   res.send(URLSafeBase64.decode(vpk.publicKey))

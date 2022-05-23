@@ -46,10 +46,7 @@ export const findBySrcCollectionAndTraitValue = ({
   .count(pipelineFindBySrcCollectionAndTraitValue(srcCollection, traitType, value))
   .then(count => Asset
     .find(pipelineFindBySrcCollectionAndTraitValue(srcCollection, traitType, value), select)
-    .then(rows => {
-      console.log(srcCollection, traitType, value, count, rows)
-      return { count, rows }
-    })
+    .then(rows => ({ count, rows }))
   )
   .then(success(res))
   .catch(next)
@@ -57,7 +54,7 @@ export const findBySrcCollectionAndTraitValue = ({
 export const findCollectionRangeTokenId = ({ query: { srcCollection, from, to }, querymen: { select } }, res, next) =>
   Asset.count(pipelineFindCollectionRangeTokenId(srcCollection, from, to))
     .then(count => Asset
-      .find(pipelineFindCollectionRangeTokenId(srcCollection, from, to), { select })
+      .find(pipelineFindCollectionRangeTokenId(srcCollection, from, to), select)
       .then(rows => ({ count, rows }))
     )
     .then(success(res))

@@ -6,10 +6,10 @@ import {Strategies} from "../pages/biddot/Strategies";
 import {Tools} from "../pages/admin/Tools";
 import {CollectionDetail} from "../pages/collection/CollectionDetail";
 import {
-    CrudAssets,
+    CrudAssets, CrudBids,
     CrudCollections,
     CrudGroups,
-    CrudMenus,
+    CrudMenus, CrudPlacements,
     CrudProcesses,
     CrudProviders,
     CrudSuscriptions,
@@ -51,6 +51,8 @@ const AppsAdmin = () =>
             <Route path='collections' element={<CrudCollections />}/>
             <Route path='assets' element={<CrudAssets />}/>
             <Route path='wallets' element={<CrudWallets />}/>
+            <Route path='bids' element={<CrudBids />}/>
+            <Route path='placements' element={<CrudPlacements />}/>
         </Route>
     </Routes>
 

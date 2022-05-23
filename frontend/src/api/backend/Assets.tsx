@@ -43,9 +43,9 @@ export class Assets extends Controller<AssetResponse, AssetCreate> {
             .catch(catchReponse)
     }
 
-    findCollectionRangeTokenId(srcCollection: string, from: number, to: number) {
-        return this.http.get(this.endpoint.appendUri('token_range').toString(), {
-            params: {srcCollection, from, to}
+    findCollectionRangeTokenId(srcCollection: string, from: number, to: number,params?: IOptions) :Promise<ResponseFormat<AssetResponseSort>>{
+        return this.http.get<ResponseFormat<AssetResponseSort>>(this.endpoint.appendUri('token_range').toString(), {
+            params: {srcCollection, from, to,...params?.params}
         }).then(processReponse)
             .catch(catchReponse)
     }

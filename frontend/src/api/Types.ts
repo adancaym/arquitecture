@@ -102,6 +102,7 @@ export interface SuscriptionCreate {
     validity: number,
     price: number;
 }
+
 export interface SuscriptionResponse {
     id: string
     name: string,
@@ -119,12 +120,14 @@ export interface ProcessResponse {
     createdAt: Date;
     updatedAt: Date;
 }
+
 export interface ProcessCreate {
     id?: string,
     name: string;
     provider: string;
     requireApiKey: boolean
 }
+
 export interface Catalog {
     id: string
     roles: Array<string>;
@@ -141,6 +144,7 @@ export interface CollectionResponse {
     createdAt: Date
     updatedAt: Date
 }
+
 export interface CollectionCreate {
     id?: string,
     name: string
@@ -155,10 +159,12 @@ export interface AssetResponse {
     createdAt: Date;
     updatedAt: Date;
 }
+
 export interface AssetResponseSort {
     id: string;
     asset: Asset;
 }
+
 export interface AssetCreate {
 
 }
@@ -168,6 +174,7 @@ export interface WalletCreate {
     name: string;
     secret: string;
 }
+
 export interface WalletResponse {
     id: string;
     name: string;
@@ -175,4 +182,41 @@ export interface WalletResponse {
     user: UserFull;
     updatedAt: Date;
     createdAt: Date;
+}
+
+export interface BidCreate {
+    id?: string;
+    wallet: string;
+    minimalBid: number;
+    maximalBid: number;
+    outbidAmount: number;
+    expirationTime: number;
+    assets: Array<string>
+}
+export interface BidResponse {
+    id: string;
+    wallet: WalletResponse;
+    minimalBid: number;
+    maximalBid: number;
+    outbidAmount: number;
+    expirationTime: number;
+    user: UserFull;
+    assets: Array<string>
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface PlacementResponse {
+    id: string
+    user: UserFull
+    asset: AssetResponse
+    wallet: WalletResponse
+    status: string;
+    bid: string;
+    createdAt: Date
+    updatedAt: Date
+}
+
+export interface PlacementCreate {
+
 }

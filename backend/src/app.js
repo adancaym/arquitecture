@@ -1,13 +1,16 @@
 import http from 'http'
-import {env, mongo, port, ip, apiRoot} from './config'
+import { env, mongo, port, ip, apiRoot } from './config'
 import mongoose from './services/mongoose'
 import express from './services/express'
 import api from './api'
-import {socketIo} from './services/socketIo/io';
+import { socketIo } from './services/socketIo/io'
+import listEndpoints from 'express-list-endpoints'
 
 const app = express(apiRoot, api)
+
 const server = http.createServer(app)
 
+console.table(listEndpoints(app))
 
 socketIo(server)
 

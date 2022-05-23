@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "runing"
+node /app/request_placement.js
