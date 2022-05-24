@@ -15,6 +15,7 @@ import asset from './asset'
 import wallet from './wallet'
 import bid from './bid'
 import placement from './placement'
+import apiKey from './apiKey'
 
 var URLSafeBase64 = require('urlsafe-base64')
 
@@ -66,6 +67,7 @@ router.use('/assets', asset)
 router.use('/wallets', wallet)
 router.use('/bids', bid)
 router.use('/placements', placement)
+router.use('/apiKeys', apiKey)
 
 router.get('/key', (req, res, next) => {
   res.send(URLSafeBase64.decode(vpk.publicKey))

@@ -8,7 +8,6 @@ COPY tsconfig.json /app/tsconfig.json
 COPY webpack-rtl.config.js /app/webpack-rtl.config.js
 COPY src /app/src
 COPY public /app/public
-COPY .env /app/.env
 
 RUN yarn install
 RUN yarn add react-scripts -g
