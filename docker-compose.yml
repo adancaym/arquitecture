@@ -67,6 +67,9 @@ services:
       - mongo
     image: "igabriele/docker-compose-puppeteer"
     working_dir: /home/node/app
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     environment:
       - CHOKIDAR_USEPOLLING=true
       - DEFAULT_EMAIL_HOST_BACKEND=mail
