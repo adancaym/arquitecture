@@ -1,6 +1,6 @@
 FROM debian:latest
 
-#RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt-get update \
     && apt-get install -y curl apache2 \
@@ -40,5 +40,7 @@ RUN rm /etc/apache2/sites-enabled/000-default.conf
 COPY ports.conf /etc/apache2/ports.conf
 COPY apache2.conf /etc/apache2/apache2.conf
 COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
+
 COPY .htaccess /var/www/html/.htaccess
+
 ENTRYPOINT service apache2 restart && bash
