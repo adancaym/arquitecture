@@ -8,7 +8,7 @@ volumes:
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy
-    container_name: nginx-proxy
+    container_name: nginx-proxy.shvl.ia
     ports:
       - "80:80"
       - "443:443"
@@ -17,15 +17,15 @@ services:
     restart: always
     privileged: true
     environment:
-      - DEFAULT_HOST=frontend.shvl.ia
+      - DEFAULT_HOST=frontend.shvl.ia:3000
       - VIRTUAL_PROTO=https
       - VIRTUAL_PORT=443
     networks:
       - shvl-net
   nginx-balancer:
     image: nginx:latest
-    hostname: nginx-balancer
-    container_name: nginx-balancer
+    hostname: nginx-balancer.shvl.ia
+    container_name: nginx-balancer.shvl.ia
     volumes:
       - ./nginx-backend-balancer:/etc/nginx/templates
     depends_on:
@@ -40,8 +40,8 @@ services:
     networks:
       - shvl-net
   mongo:
-    hostname: mongo
-    container_name: mongo
+    hostname: mongo.shvl.ia
+    container_name: mongo.shvl.ia
     image: 'mongo'
     ports:
       - "27017:27017"
@@ -54,8 +54,8 @@ services:
       - shvl-net
   mail:
     image: "mailhog/mailhog"
-    hostname: mail
-    container_name: mail
+    hostname: mail.shvl.ia
+    container_name: mail.shvl.ia
     environment:
       - VIRTUAL_HOST=mail.shvl.ia
       - MH_OUTGOING_SMTP=/home/smtp/configs.json
@@ -69,7 +69,7 @@ services:
     networks:
       - shvl-net
   backend:
-    hostname: development
+    hostname: development.shvl.ia
     links:
       - mongo
     image: "igabriele/docker-compose-puppeteer"
@@ -103,8 +103,8 @@ services:
       - shvl-net
   frontend:
     restart: always
-    hostname: frontend
-    container_name: frontend
+    hostname: frontend.shvl.ia
+    container_name: frontend.shvl.ia
     build:
       context: ./frontend
       dockerfile: Dockerfile-prod
@@ -126,8 +126,8 @@ services:
       - mail
       - nginx-proxy
   cron-jobs:
-    hostname: cron-jobs
-    container_name: cron-jobs
+    hostname: cron-jobs.shvl.ia
+    container_name: cron-jobs.shvl.ia
     build:
       context: ./cron_jobs
       dockerfile: ./Dockerfile
