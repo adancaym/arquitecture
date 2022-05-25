@@ -1,8 +1,8 @@
 server {
-    listen  ${NGINX_PORT} ${VIRTUAL_HOST};
-    listen  [::]:${NGINX_PORT} ${VIRTUAL_HOST};
+    listen  ${BACKEND_NGINX_PORT};
+    listen  [::]:${BACKEND_NGINX_PORT};
     location / {
-        proxy_pass ${INSTANCE_URL}:${INSTANCE_PORT};
+        proxy_pass ${BACKEND_URL}:${BACKEND_PORT};
     }
 }
 

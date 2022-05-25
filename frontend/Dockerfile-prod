@@ -1,35 +1,35 @@
 FROM debian:latest
 
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+#RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt-get update \
     && apt-get install -y curl apache2 \
     && apt-get -y autoclean
 
-ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 16.15.0
+#ENV NVM_DIR /usr/local/nvm
+#ENV NODE_VERSION 16.15.0
 
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+#RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
 
-RUN source $NVM_DIR/nvm.sh \
-    && nvm install $NODE_VERSION \
-    && nvm alias default $NODE_VERSION \
-    && nvm use default
+#RUN source $NVM_DIR/nvm.sh \
+ #   && nvm install $NODE_VERSION \
+ #   && nvm alias default $NODE_VERSION \
+ #   && nvm use default
 
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-WORKDIR /app
-COPY package.json /app/package.json
-COPY tsconfig.json /app/tsconfig.json
-COPY webpack-rtl.config.js /app/webpack-rtl.config.js
-COPY src /app/src
-COPY .env.production /app/.env.production
-COPY public /app/public
+#ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+#ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+#WORKDIR /app
+#COPY package.json /app/package.json
+#COPY tsconfig.json /app/tsconfig.json
+#COPY webpack-rtl.config.js /app/webpack-rtl.config.js
+#COPY src /app/src
+#COPY .env.production /app/.env.production
+#COPY public /app/public
 
-RUN npm install yarn -g
-RUN npm run ci
-RUN npm run build
-RUN mv /app/build/* /var/www/html/
+#RUN npm install yarn -g
+#RUN npm run ci
+#RUN npm run build
+#RUN mv /app/build/* /var/www/html/
 
 RUN a2enmod rewrite
 
@@ -41,6 +41,6 @@ COPY ports.conf /etc/apache2/ports.conf
 COPY apache2.conf /etc/apache2/apache2.conf
 COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
-COPY .htaccess /var/www/html/.htaccess
-
+#COPY .htaccess /var/www/html/.htaccess
+COPY public/index.html /var/www/html/index.html
 ENTRYPOINT service apache2 restart && bash
