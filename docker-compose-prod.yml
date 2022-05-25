@@ -16,6 +16,10 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: always
     privileged: true
+    environment:
+      - DEFAULT_HOST=frontend.shvl.ia
+      - VIRTUAL_PROTO=https
+      - VIRTUAL_PORT=443
     networks:
       - shvl-net
   nginx-balancer:
@@ -31,7 +35,7 @@ services:
     environment:
       - VIRTUAL_HOST=
       - NGINX_PORT=5000
-      - INSTANCE_URL=http://backend
+      - INSTANCE_URL=http://backend.shvl.ia
       - INSTANCE_PORT=5001
     networks:
       - shvl-net
@@ -41,6 +45,9 @@ services:
     image: 'mongo'
     ports:
       - "27017:27017"
+
+    environment:
+      - VIRTUAL_HOST=mongo.shvl.ia
     volumes:
       - mongo_data:/data/db
     networks:
@@ -50,7 +57,7 @@ services:
     hostname: mail
     container_name: mail
     environment:
-      - VIRTUAL_HOST=mail
+      - VIRTUAL_HOST=mail.shvl.ia
       - MH_OUTGOING_SMTP=/home/smtp/configs.json
       - MH_SMTP_BIND_ADDR=mail:1025
     working_dir: /home/smtp
@@ -72,12 +79,12 @@ services:
       dockerfile: Dockerfile
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - DEFAULT_EMAIL_HOST_BACKEND=mail
+      - DEFAULT_EMAIL_HOST_BACKEND=http://mail.shvl.ia
       - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
-      - VIRTUAL_HOST=mail
-      - NODE_ENV=development
+      - VIRTUAL_HOST=backend.shvl.ia
+      - NODE_ENV=production
       - PORT=5001
-      - MONGO_URI=mongodb://mongo/backend-dev
+      - MONGO_URI=mongodb://mongo.shvl.ia/backend-dev
       - SENDGRID_KEY=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
       - MASTER_KEY=Sc4pGDcr8NeKPNouEXOQp1v784Dutmlt
       - JWT_SECRET=8EZ0QdhBOntJSuyZHXJHfVB4NCJQ4KqM
@@ -108,6 +115,8 @@ services:
       - ./frontend:/app
     ports:
       - "3000:3000"
+    environment:
+      - VIRTUAL_HOST=backend.shvl.ia
     networks:
       - shvl-net
     depends_on:

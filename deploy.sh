@@ -1,10 +1,10 @@
-sudo grep -qxF '127.0.0.1       nginx-proxy' /etc/hosts || sudo echo '127.0.0.1       nginx-proxy' >> /etc/hosts
-sudo grep -qxF '127.0.0.1       cron-jobs' /etc/hosts || sudo echo '127.0.0.1       cron-jobs' >> /etc/hosts
-sudo grep -qxF '127.0.0.1       frontend' /etc/hosts || sudo echo '127.0.0.1       frontend' >> /etc/hosts
-sudo grep -qxF '127.0.0.1       backend' /etc/hosts || sudo echo '127.0.0.1       backend' >> /etc/hosts
-sudo grep -qxF '127.0.0.1       mail' /etc/hosts || sudo echo '127.0.0.1       mail' >> /etc/hosts
-sudo grep -qxF '127.0.0.1       mongo' /etc/hosts || sudo echo '127.0.0.1       mongo' >> /etc/hosts
-sudo grep -qxF '127.0.0.1       nginx-balancer' /etc/hosts || sudo echo '127.0.0.1       nginx-balancer' >> /etc/hosts
-docker volume create mongo_data
-docker network create  shvl-net
-docker-compose up -d
+sudo grep -qxF '127.0.0.1       nginx-proxy.shvl.ia' /etc/hosts || sudo echo '127.0.0.1       nginx-proxy.shvl.ia' >> /etc/hosts
+sudo grep -qxF '127.0.0.1       cron-jobs.shvl.ia' /etc/hosts || sudo echo '127.0.0.1       cron-jobs.shvl.ia' >> /etc/hosts
+sudo grep -qxF '127.0.0.1       frontend.shvl.ia' /etc/hosts || sudo echo '127.0.0.1       frontend.shvl.ia' >> /etc/hosts
+sudo grep -qxF '127.0.0.1       backend.shvl.ia' /etc/hosts || sudo echo '127.0.0.1       backend.shvl.ia' >> /etc/hosts
+sudo grep -qxF '127.0.0.1       mail.shvl.ia' /etc/hosts || sudo echo '127.0.0.1       mail.shvl.ia' >> /etc/hosts
+sudo grep -qxF '127.0.0.1       mongo.shvl.ia' /etc/hosts || sudo echo '127.0.0.1       mongo.shvl.ia' >> /etc/hosts
+sudo grep -qxF '127.0.0.1       nginx-balancer.shvl.ia' /etc/hosts || sudo echo '127.0.0.1       nginx-balancer.shvl.ia' >> /etc/hosts
+#docker volume create mongo_data
+#docker network create  shvl-net
+#docker-compose up -d
