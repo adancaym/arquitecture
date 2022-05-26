@@ -10,21 +10,21 @@ volumes:
 services:
   backend:
     restart: always
-    hostname: backend.shvl.ia
-    links:
-      - mongo
+    hostname: backend
     image: "node:latest"
     working_dir: /home/node/app
     build:
       context: ./backend
       dockerfile: Dockerfile
+    depends_on:
+      - mongo
     environment:
       - PORT=5001
-      - MONGO_URI=mongodb://shvl:shvl2022@mongo.shvl.ia/backend-dev
+      - MONGO_URI=mongodb://shvldb:shvldb2022@localhost/backend-dev?authSource=backend-dev&w=1&authMechanism=SCRAM-SHA-1
       - DEFAULT_EMAIL_HOST_BACKEND=http://mail.shvl.ia
       - CHOKIDAR_USEPOLLING=true
       - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
-      - NODE_ENV=production
+      - NODE_ENV=development
       - SENDGRID_KEY=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
       - MASTER_KEY=Sc4pGDcr8NeKPNouEXOQp1v784Dutmlt
       - JWT_SECRET=8EZ0QdhBOntJSuyZHXJHfVB4NCJQ4KqM
@@ -135,7 +135,7 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: shvl
       ME_CONFIG_MONGODB_ADMINPASSWORD: shvl2022
-      ME_CONFIG_MONGODB_URL: mongodb://shvl:shvl2022@mongo.shvl.ia:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://shvl:shvl2022@mongo:27017/
     networks:
       - shvl-net
   cron-jobs:
