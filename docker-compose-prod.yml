@@ -4,6 +4,8 @@ version: "3"
 volumes:
   mongo_data:
     external: true
+  portainer_data:
+    external: true
 
 services:
   backend:
@@ -18,7 +20,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - PORT=5001
-      - MONGO_URI=mongodb://mongo.shvl.ia/backend-dev
+      - MONGO_URI=mongodb://mongo.shvl.ia/backend-prod
       - DEFAULT_EMAIL_HOST_BACKEND=http://mail.shvl.ia
       - CHOKIDAR_USEPOLLING=true
       - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
@@ -56,6 +58,19 @@ services:
       - shvl-net
     depends_on:
       - backend
+  portainer:
+    image: portainer/portainer
+    hostname: portainer.shvl.ia
+    container_name: portainer.shvl.ia
+    restart: always
+    ports:
+      - "9000:9000"
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data portainer/portainer-ce
+    environment:
+      - VIRTUAL_HOST=portainer-caym-server.com
   nginx-balancer:
     image: nginx:latest
     hostname: nginx-balancer.shvl.ia
