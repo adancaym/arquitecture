@@ -20,7 +20,7 @@ services:
       - mongo
     environment:
       - PORT=5001
-      - MONGO_URI=mongodb://shvldb:shvldb2022@localhost/backend-dev?authSource=backend-dev&w=1&authMechanism=SCRAM-SHA-1
+      - MONGO_URI=mongodb://shvldb:shvldb2022@shvl.ai:27017/backend-dev
       - DEFAULT_EMAIL_HOST_BACKEND=http://mail.shvl.ia
       - CHOKIDAR_USEPOLLING=true
       - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
@@ -135,7 +135,7 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: shvl
       ME_CONFIG_MONGODB_ADMINPASSWORD: shvl2022
-      ME_CONFIG_MONGODB_URL: mongodb://shvl:shvl2022@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://shvl:shvl2022@shvl.ai:27017
     networks:
       - shvl-net
   cron-jobs:

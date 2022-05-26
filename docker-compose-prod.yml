@@ -8,7 +8,7 @@ volumes:
 services:
   backend:
     restart: always
-    hostname: backend.shvl.ia
+    hostname: backend
     links:
       - mongo
     image: "node:latest"
@@ -18,8 +18,8 @@ services:
       dockerfile: Dockerfile
     environment:
       - PORT=5001
-      - MONGO_URI=mongodb://shvldb:shvldb2022@localhost/backend-prod?authSource=backend-prod&w=1&authMechanism=SCRAM-SHA-1
-      - DEFAULT_EMAIL_HOST_BACKEND=http://mail.shvl.ia
+      - MONGO_URI= mongodb://shvldb:shvldb2022@shvl.ai:27017/backend-prod
+      - DEFAULT_EMAIL_HOST_BACKEND=http://mail
       - CHOKIDAR_USEPOLLING=true
       - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
       - NODE_ENV=production
@@ -41,7 +41,7 @@ services:
       - shvl-net
   frontend:
     restart: always
-    hostname: frontend.shvl.ia
+    hostname: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile-prod
@@ -58,8 +58,8 @@ services:
       - backend
   portainer:
     image: portainer/portainer
-    hostname: portainer.shvl.ia
-    container_name: portainer.shvl.ia
+    hostname: portainer
+    container_name: portainer
     restart: always
     ports:
       - "9000:9000"
@@ -73,8 +73,8 @@ services:
       - shvl-net
   nginx-balancer:
     image: nginx:latest
-    hostname: nginx-balancer.shvl.ia
-    container_name: nginx-balancer.shvl.ia
+    hostname: nginx-balancer
+    container_name: nginx-balancer
     volumes:
       - ./nginx-backend-balancer:/etc/nginx/templates
     depends_on:
@@ -85,20 +85,20 @@ services:
     environment:
       - FRONTEND_NGINX_PORT=80
       - BACKEND_NGINX_PORT=5000
-      - FRONTEND_URL=http://frontend.shvl.ia
-      - BACKEND_URL=http://backend.shvl.ia
+      - FRONTEND_URL=http://frontend
+      - BACKEND_URL=http://backend
       - BACKEND_PORT=5001
       - FRONTEND_PORT=3000
     networks:
       - shvl-net
   mongo:
-    hostname: mongo.shvl.ia
-    container_name: mongo.shvl.ia
+    hostname: mongo
+    container_name: mongo
     image: 'mongo'
     ports:
       - "27017:27017"
     environment:
-      - VIRTUAL_HOST=mongo.shvl.ia
+      - VIRTUAL_HOST=mongo
       - MONGO_INITDB_ROOT_USERNAME=shvl
       - MONGO_INITDB_ROOT_PASSWORD=shvl2022
     volumes:
@@ -113,12 +113,12 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: shvl
       ME_CONFIG_MONGODB_ADMINPASSWORD: shvl2022
-      ME_CONFIG_MONGODB_URL: mongodb://shvldb:shvldb2022@localhost/backend-prod?authSource=backend-prod&w=1&authMechanism=SCRAM-SHA-1
+      ME_CONFIG_MONGODB_URL: mongodb://shvldb:shvldb2022@mongo:27017
     networks:
       - shvl-net
   cron-jobs:
-    hostname: cron-jobs.shvl.ia
-    container_name: cron-jobs.shvl.ia
+    hostname: cron-jobs
+    container_name: cron-jobs
     build:
       context: ./cron_jobs
       dockerfile: ./Dockerfile

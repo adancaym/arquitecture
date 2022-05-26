@@ -5,7 +5,6 @@ import express from './services/express'
 import api from './api'
 import { socketIo } from './services/socketIo/io'
 import listEndpoints from 'express-list-endpoints'
-import axios from "axios";
 
 const app = express(apiRoot, api)
 
@@ -18,7 +17,6 @@ socketIo(server)
 if (mongo.uri) {
   mongoose.connect(mongo.uri,mongo.options, () => {
     console.log('Connection Moongo success')
-    console.log(mongo)
   })
 }
 mongoose.Promise = Promise
