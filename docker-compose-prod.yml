@@ -134,4 +134,3 @@ networks:
     external: true
 
 
-  mongorestore --host=loalhost --port=27017 --authenticationDatabase="admin" -u="shvl"  ./dump/
