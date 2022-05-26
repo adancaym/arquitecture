@@ -1,8 +1,5 @@
 import path from 'path'
-const dotenv = require('dotenv-safe')
-dotenv.config({
-  path: path.join(__dirname,  '../.env'),
-})
+
 
 const requireProcessEnv = (name) => {
   if (!process.env[name]) {
