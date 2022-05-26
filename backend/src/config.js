@@ -1,6 +1,5 @@
 import path from 'path'
 
-
 const requireProcessEnv = (name) => {
   if (!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable')
@@ -22,7 +21,12 @@ const config = {
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
     mongo: {
-      uri: requireProcessEnv('MONGO_URI')
+      uri: requireProcessEnv('MONGO_URI'),
+      options: {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true
+      }
     }
   }
 }
