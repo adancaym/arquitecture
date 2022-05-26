@@ -37,7 +37,7 @@ services:
     volumes:
       - ./backend:/home/node/app
     ports:
-      - "5001:5001"
+      - "5001"
     command: "npm run start"
     networks:
       - shvl-net
