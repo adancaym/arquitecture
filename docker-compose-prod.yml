@@ -103,6 +103,15 @@ services:
       - mongo_data:/data/db
     networks:
       - shvl-net
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo.shvl.ia/
+    networks:
+      - shvl-net
   cron-jobs:
     hostname: cron-jobs.shvl.ia
     container_name: cron-jobs.shvl.ia
