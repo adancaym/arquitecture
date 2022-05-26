@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - PORT=5001
-      - MONGO_URI=mongodb://shvl:shvl2022@188.166.49.58:27017/backend-prod
+      - MONGO_URI=mongodb://shvldb:shvldb2022@localhost/backend-prod?authSource=backend-prod&w=1&authMechanism=SCRAM-SHA-1
       - DEFAULT_EMAIL_HOST_BACKEND=http://mail.shvl.ia
       - CHOKIDAR_USEPOLLING=true
       - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025
