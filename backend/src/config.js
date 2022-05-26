@@ -1,4 +1,8 @@
 import path from 'path'
+const dotenv = require('dotenv-safe')
+dotenv.config({
+  path: path.join(__dirname,  '../.env'),
+})
 
 const requireProcessEnv = (name) => {
   if (!process.env[name]) {
@@ -21,12 +25,7 @@ const config = {
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
     mongo: {
-      uri: requireProcessEnv('MONGO_URI'),
-      options: {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-        useCreateIndex: true
-      }
+      uri: requireProcessEnv('MONGO_URI')
     }
   }
 }
