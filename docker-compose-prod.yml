@@ -15,7 +15,7 @@ services:
     working_dir: /home/node/app
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-prod
     depends_on:
       - mongo
     environment:

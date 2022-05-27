@@ -1,12 +1,11 @@
-FROM node:latest
+FROM node:16.15.0
 RUN apt-get update
 WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
 
-COPY package.json /app/package.json
 COPY .babelrc /app/.babelrc
 COPY .eslintrc /app/.eslintrc
 COPY .travis.yml /app/.travis.yml
+COPY package.json /app/package.json
 COPY smtp.json /app/smtp.json
 COPY vpk.json /app/vpk.json
 
