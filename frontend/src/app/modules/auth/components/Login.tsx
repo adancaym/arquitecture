@@ -34,6 +34,9 @@ export function Login() {
     const [loading, setLoading] = useState(false)
     const {saveAuth, setCurrentUser} = useAuth()
 
+    console.table(process.env)
+    console.table(process.env)
+    console.table(process.env)
     const formik = useFormik({
         initialValues,
         validationSchema: loginSchema,

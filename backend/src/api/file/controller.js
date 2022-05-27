@@ -58,7 +58,6 @@ export const destroy = ({params}, res, next) =>
     .catch(next)
 
 export const upload = (req, res, next) => {
-  console.log('paso')
   const form = new multiparty.Form()
   form.parse(req, (err, fields, files) => {
     const oldPath = files.file[0].path;

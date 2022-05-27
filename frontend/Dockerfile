@@ -9,7 +9,6 @@ COPY webpack-rtl.config.js /app/webpack-rtl.config.js
 COPY src /app/src
 COPY public /app/public
 
-RUN npm install -D --legacy-peer-deps
-RUN npm install --legacy-peer-deps
+RUN yarn install
 RUN yarn add react-scripts -g
 

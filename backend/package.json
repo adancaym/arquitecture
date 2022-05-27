@@ -22,7 +22,6 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.25",
     "apidoc": "^0.20.0",
     "apidoc-markdown": "^0.2.1",
     "babel-eslint": "^10.1.0",
@@ -64,7 +63,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mime": "^2.5.2",
-    "mongoose": "^5.9.4",
+    "mongoose": "^6.3.4",
     "mongoose-keywords": "^0.4.0",
     "morgan": "^1.9.1",
     "multiparty": "^4.2.2",
@@ -73,7 +72,6 @@
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
-    "puppeteer": "^10.1.0",
     "querymen": "^2.1.4",
     "rand-token": "^0.4.0",
     "request": "^2.88.2",

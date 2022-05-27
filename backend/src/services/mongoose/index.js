@@ -14,9 +14,7 @@ mongoose.Types.ObjectId.prototype.view = function () {
 
 /* istanbul ignore next */
 mongoose.connection.on('error', (err) => {
-  console.log(mongo)
   console.error('MongoDB connection error: ' + err)
-  process.exit(-1)
 })
 
 export default mongoose

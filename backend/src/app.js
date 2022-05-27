@@ -15,7 +15,7 @@ console.table(listEndpoints(app))
 socketIo(server)
 
 if (mongo.uri) {
-  mongoose.connect(mongo.uri).then(() => {
+  mongoose.connect(mongo.uri, () => {
     console.log('Connection Moongo success')
   })
 }
