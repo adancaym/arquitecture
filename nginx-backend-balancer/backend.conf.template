@@ -1,0 +1,9 @@
+server {
+    listen  80;
+    server_name  api.shvl.ai www.api.shvl.ai;
+
+    location / {
+        proxy_pass http://backend:${BACKEND_PORT};
+    }
+}
+

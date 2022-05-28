@@ -1,7 +1,0 @@
-server {
-    server_name  ${SUBDOMAIN_API_SERVER_NAME};
-    location / {
-        proxy_pass ${BACKEND_URL}:${BACKEND_PORT};
-    }
-}
-
