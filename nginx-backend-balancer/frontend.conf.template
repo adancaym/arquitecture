@@ -1,6 +1,7 @@
 server {
     listen  ${FRONTEND_NGINX_PORT};
-    listen  [::]:${FRONTEND_NGINX_PORT};
+    server_name  ${SERVER_NAME}
+
     location / {
         proxy_pass ${FRONTEND_URL}:${FRONTEND_PORT};
     }

@@ -93,6 +93,7 @@ services:
       - BACKEND_URL=http://backend
       - BACKEND_PORT=5001
       - FRONTEND_PORT=3000
+      - SERVER_NAME=shvl.ai www.shvl.ai
     networks:
       - shvl-net
   mongo:

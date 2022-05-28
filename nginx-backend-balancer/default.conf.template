@@ -1,6 +1,6 @@
 server {
     listen  ${BACKEND_NGINX_PORT};
-    listen  [::]:${BACKEND_NGINX_PORT};
+    server_name  ${SERVER_NAME}
     location / {
         proxy_pass ${BACKEND_URL}:${BACKEND_PORT};
     }
