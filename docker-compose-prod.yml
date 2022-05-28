@@ -92,7 +92,7 @@ services:
       - BACKEND_PORT=5001
       - FRONTEND_PORT=3000
       - SERVER_NAME=shvl.ai www.shvl.ai
-      - SUBDOMAIN_API_SERVER_NAME=api.shvl.ai www.api.shvl.ai
+      - SUBDOMAIN_API_SERVER_NAME=api.shvl.ai
     networks:
       - shvl-net
   mongo:
