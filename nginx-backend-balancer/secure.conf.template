@@ -1,8 +1,0 @@
-server {
-    listen  ${FRONTEND_HTTPS_NGINX_PORT};
-    server_name  ${SERVER_NAME}
-    location / {
-        proxy_pass ${FRONTEND_URL}:${FRONTEND_PORT};
-    }
-}
-
