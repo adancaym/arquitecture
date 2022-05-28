@@ -1,7 +1,8 @@
 server {
-    listen  ${BACKEND_NGINX_PORT};
-    server_name  ${SERVER_NAME};
+    listen  ${FRONTEND_NGINX_PORT};
+    server_name  ${SUBDOMAIN_API_SERVER_NAME};
     location / {
         proxy_pass ${BACKEND_URL}:${BACKEND_PORT};
     }
 }
+
