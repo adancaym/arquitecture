@@ -80,7 +80,7 @@ services:
     volumes:
       - ./nginx-balancer/nginx-backend-balancer:/etc/nginx/conf.d/
       - ./nginx-balancer/certbot/www:/var/www/certbot/:ro
-    #    - ./nginx-balancer/certbot/conf:/etc/nginx/ssl/:ro
+      - ./nginx-balancer/certbot/conf:/etc/nginx/ssl/:ro
     depends_on:
       - backend
     ports:
@@ -95,6 +95,8 @@ services:
     image: certbot/certbot:latest
     volumes:
       - ./nginx-balancer/certbot/www/:/var/www/certbot/:rw
+      - ./nginx-balancer/certbot/conf/:/etc/letsencrypt/:rw
+
   mongo:
     hostname: mongo
     container_name: mongo
