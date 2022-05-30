@@ -78,7 +78,7 @@ services:
     hostname: nginx-balancer
     container_name: nginx-balancer
     volumes:
-      - ./nginx-balancer/nginx-backend-balancer:/etc/nginx/template
+      - ./nginx-balancer/nginx-backend-balancer:/etc/nginx/conf.d/
       - ./nginx-balancer/certbot/www:/var/www/certbot/:ro
     #    - ./nginx-balancer/certbot/conf:/etc/nginx/ssl/:ro
     depends_on:
