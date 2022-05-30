@@ -3,7 +3,7 @@ server {
     server_name  api.shvl.ai www.api.shvl.ai;
 
     location / {
-        proxy_pass http://backend:${BACKEND_PORT};
+        proxy_pass http://backend:5001;
     }
 }
 

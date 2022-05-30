@@ -1,8 +1,0 @@
-server {
-    listen  80;
-    server_name  shvl.ai www.shvl.ai;
-
-    location / {
-        proxy_pass http://frontend:${FRONTEND_PORT};
-    }
-}
