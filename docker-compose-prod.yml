@@ -80,7 +80,7 @@ services:
     volumes:
       - ./nginx-balancer/nginx-backend-balancer:/etc/nginx/template
       - ./nginx-balancer/certbot/www:/var/www/certbot/:ro
-  #    - ./nginx-balancer/certbot/conf:/etc/nginx/ssl/:ro
+    #    - ./nginx-balancer/certbot/conf:/etc/nginx/ssl/:ro
     depends_on:
       - backend
     ports:
@@ -88,11 +88,9 @@ services:
       - "443:443"
     networks:
       - shvl-net
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./nginx-balancer/certbot/www:/var/www/certbot/:rw
-   #   - ./nginx-balancer/certbot/conf:/etc/nginx/ssl/:rw
+    environment:
+      - BACKEND_PORT=5001
+      - FRONTEND_PORT=3000
   mongo:
     hostname: mongo
     container_name: mongo
