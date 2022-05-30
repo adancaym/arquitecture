@@ -91,6 +91,10 @@ services:
     environment:
       - BACKEND_PORT=5001
       - FRONTEND_PORT=3000
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./nginx-balancer/certbot/www/:/var/www/certbot/:rw
   mongo:
     hostname: mongo
     container_name: mongo
