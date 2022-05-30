@@ -9,6 +9,8 @@ RUN apt-get update \
 WORKDIR /app
 
 COPY build /app/build
+
+RUN rm /var/www/html/index.html
 RUN mv /app/build/* /var/www/html/
 
 RUN a2enmod rewrite
