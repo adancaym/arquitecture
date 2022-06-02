@@ -127,7 +127,7 @@ services:
     container_name: cron-jobs
     working_dir: /app
     environment:
-      - SELF_HOST=http://cron-jobs
+      - SELF_HOST=http://localhost
       - SELF_PORT=4000
       - BACKEND_HOST=http://backend
       - BACKEND_PORT=5001
