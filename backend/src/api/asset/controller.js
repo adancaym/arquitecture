@@ -72,6 +72,7 @@ export const findBySrcCollection = ({ query: { srcCollection }, querymen: { sele
 export const findTraitTypesBySrcCollection = ({ query: { srcCollection } }, res, next) =>
   Asset.aggregate(pipelineFindTraitTypesBySrcCollection(srcCollection))
     .then(r => {
+      console.log(r,'_________________________________________________________')
       const [result] = r
       // eslint-disable-next-line camelcase
       const { trait_types } = result

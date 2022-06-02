@@ -20,6 +20,9 @@ const placementSchema = new Schema({
     ref: 'Wallet',
     required: true
   },
+  event: {
+    type: Object
+  },
   bid: {
     type: Schema.ObjectId,
     ref: 'Bid',
@@ -42,6 +45,7 @@ placementSchema.methods = {
       user: this.user.view(),
       asset: this.asset,
       wallet: this.wallet,
+      event: this.event,
       status: this.status,
       bid: this.bid,
       createdAt: this.createdAt,

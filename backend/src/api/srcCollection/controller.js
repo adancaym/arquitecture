@@ -1,17 +1,17 @@
 import { success, notFound } from '../../services/response/'
-import srcCollection, { SrcCollection } from '.'
+import { SrcCollection } from '.'
 import { Process } from '../process/index'
-import { fullProcess } from '../../services/openSean/implementation'
+import { fullProcessCreateCollection } from '../../services/openSean/implementation'
 
 export const create = ({ bodymen: { body } }, res, next) =>
   SrcCollection.create({ ...body, status: 'registered' })
     .then((srcCollection) => srcCollection.view(true))
     .then((srcCollection) => {
-      Process.find()
+      Process.findOne({ name: 'create-collection' })
         .populate('provider')
-        .then(process => process.map(p => p.view()))
-        .then(processes => {
-          fullProcess(processes)(srcCollection)
+        .then(process => process.view())
+        .then(process => {
+          fullProcessCreateCollection(process)(srcCollection)
         })
       return srcCollection
     }

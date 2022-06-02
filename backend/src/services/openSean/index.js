@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+
 export const openSea = (baseURL) => {
   // eslint-disable-next-line camelcase
   const getCollection = ({ asset_owner, offset, limit, name }) => axios.get(`collection/${name}`, {

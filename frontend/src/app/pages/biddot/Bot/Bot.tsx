@@ -14,6 +14,7 @@ import {Wallets} from "../../../../api/backend/Wallets";
 import {LoadingContent} from "../../../../components/common/LoadingContent";
 import {Bids} from "../../../../api/backend/Bids";
 import {BidCreate, BidResponse} from "../../../../api/Types";
+import {ModalCreatecollection} from "./ModalCreateCollection";
 
 interface FormBotProps {
     srcCollection: string | undefined;
@@ -83,8 +84,10 @@ export const Bot = () => {
     const [totalAssets, setTotalAssets] = useState<number | undefined>(undefined);
 
 
+    const fetchCollections = ()=> collectionController.options({params: {fields: 'id, name'}}).then(setCollectionOptions)
+
     useEffect(() => {
-        collectionController.options({params: {fields: 'id, name'}}).then(setCollectionOptions)
+        fetchCollections()
     }, [])
 
     useEffect(() => {
@@ -240,12 +243,18 @@ export const Bot = () => {
                         </div>
                         <div className="col-2 d-grid align-content-center justify-content-center ">
                             <LoadingContent isLoading={isLoading}>
-                                <div className={'d-grid align-content-center justify-content-center text-center'}>
+                                <div className={'d-grid align-content-center justify-content-center gap-5 text-center'}>
                                     {totalAssets && <h3>Total assets: <span
                                         className={'badge badge-info  p-3 '}>{totalAssets}</span></h3>}
                                     <h3 className={'m-5'}>Assets selected</h3>
                                     <ModalAssets assets={assets} count={assetsCount}
                                                  title={`Assets selected ${assetsCount}`}/>
+                                    <ModalCreatecollection
+                                        title={'Create collection'}
+                                        callback={()=> {
+                                            fetchCollections();
+                                        }}
+                                    />
                                 </div>
                             </LoadingContent>
                         </div>

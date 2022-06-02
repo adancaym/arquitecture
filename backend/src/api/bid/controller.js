@@ -1,6 +1,8 @@
 import { success, notFound, authorOrAdmin } from '../../services/response/'
 import { Bid } from '.'
 import { Placement } from '../placement'
+import { Process } from '../process'
+import { findLastOffer } from '../../services/openSean/implementation'
 
 export const create = ({ header, user, bodymen: { body } }, res, next) => Bid.create({ ...body, user })
   .then((bid) => bid.view(true))
@@ -12,8 +14,22 @@ export const saveBid = (bid) => {
   const { assets, id, user, wallet } = bid
   assets
     .map(asset => ({ asset, bid: id, status: 'created', user: user.id, wallet }))
-    .forEach(bid =>
-      Placement.create(bid)
+    .forEach(async bid => {
+      const process = await Process.findOne({ name: 'extract-events' })
+        .populate('provider')
+        .then(p => p.view())
+
+      switch (process.provider.name) {
+        case 'opensea': {
+          const { event } = await findLastOffer(process)(bid.asset)
+          delete event.asset
+          bid.event = event
+          const placement = await Placement.create(bid).then(p => p.view())
+          console.log(placement)
+          break
+        }
+      }
+    }
     )
 }
 

@@ -1,13 +1,14 @@
-import {success, notFound, authorOrAdmin} from '../../services/response/'
-import {Placement} from '.'
+import { success, notFound, authorOrAdmin } from '../../services/response/'
+import { Placement } from '.'
+import { Asset } from '../asset'
 
-export const create = ({user, bodymen: {body}}, res, next) =>
-  Placement.create({...body, user})
+export const create = ({ user, bodymen: { body } }, res, next) =>
+  Placement.create({ ...body, user })
     .then((placement) => placement.view(true))
     .then(success(res, 201))
     .catch(next)
 
-export const index = ({querymen: {query, select, cursor}}, res, next) =>
+export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   Placement.count(query)
     .then(count => Placement.find(query, select, cursor)
       .populate('wallet', 'name')
@@ -21,7 +22,7 @@ export const index = ({querymen: {query, select, cursor}}, res, next) =>
     .then(success(res))
     .catch(next)
 
-export const show = ({params}, res, next) =>
+export const show = ({ params }, res, next) =>
   Placement.findById(params.id)
     .populate('user')
     .then(notFound(res))
@@ -29,7 +30,7 @@ export const show = ({params}, res, next) =>
     .then(success(res))
     .catch(next)
 
-export const update = ({user, bodymen: {body}, params}, res, next) =>
+export const update = ({ user, bodymen: { body }, params }, res, next) =>
   Placement.findById(params.id)
     .populate('user')
     .then(notFound(res))
@@ -39,11 +40,10 @@ export const update = ({user, bodymen: {body}, params}, res, next) =>
     .then(success(res))
     .catch(next)
 
-export const destroy = ({user, params}, res, next) =>
+export const destroy = ({ user, params }, res, next) =>
   Placement.findById(params.id)
     .then(notFound(res))
     .then(authorOrAdmin(res, user, 'user'))
     .then((placement) => placement ? placement.remove() : null)
     .then(success(res, 204))
     .catch(next)
-

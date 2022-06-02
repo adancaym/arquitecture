@@ -28,7 +28,9 @@ export class Assets extends Controller<AssetResponse, AssetCreate> {
                         </div>
                     </ModalToTable>
                 }
-            }
+            },
+            {type: 'readOnlyInTable', key: 'createdAt', label: 'creado'},
+
         ]);
     }
 
