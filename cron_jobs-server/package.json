@@ -1,0 +1,23 @@
+{
+  "name": "cron_jobs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env SELF_HOST=http://localhost SELF_PORT=4000 BACKEND_HOST=http://localhost BACKEND_PORT=5001 && nodemon -i \"*.test.js\" .",
+    "prod": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cross-env": "^7.0.3",
+    "opensea-js": "^3.0.4",
+    "truffle-hdwallet-provider": "^1.0.17"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.16"
+  }
+}
