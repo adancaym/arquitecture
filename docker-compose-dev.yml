@@ -10,7 +10,6 @@ services:
     hostname: backend
     links:
       - mongo
-    image: node:latest
     working_dir: /home/node/app
     build:
       context: ./backend
@@ -42,7 +41,6 @@ services:
       - shvl-net
   frontend:
     restart: always
-    image: node:latest
     hostname: frontend
     build:
       context: ./frontend
@@ -93,11 +91,12 @@ services:
     networks:
       - shvl-net
   cron-jobs:
+    restart: always
     hostname: cron-jobs
     container_name: cron-jobs
     working_dir: /app
     environment:
-      - SELF_HOST=http://localhost
+      - SELF_HOST=http://cron-jobs-server
       - SELF_PORT=4000
       - BACKEND_HOST=http://backend
       - BACKEND_PORT=5001
@@ -108,6 +107,20 @@ services:
       - shvl-net
     depends_on:
       - backend
+      - cron-jobs-server
+  cron-jobs-server:
+    restart: always
+    hostname: cron-jobs-server
+    container_name: cron-jobs-server
+    working_dir: /app
+    build:
+      context: ./cron_jobs-server
+      dockerfile: ./Dockerfile
+    networks:
+      - shvl-net
+    depends_on:
+      - backend
+    command: "node /app/index.js"
 networks:
   shvl-net:
     external: true
