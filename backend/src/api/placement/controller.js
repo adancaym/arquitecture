@@ -1,6 +1,6 @@
 import { success, notFound, authorOrAdmin } from '../../services/response/'
 import { Placement } from '.'
-import { evaluatePlacements } from './helpers'
+import { evaluatePlacements, findLastEvent } from './helpers'
 
 export const create = ({ user, bodymen: { body } }, res, next) =>
   Placement.create({ ...body, user })
@@ -38,7 +38,12 @@ export const outBidPlacement = (req, res, next) =>
     .populate('user')
     .populate('asset')
     .populate('bid')
-    //
+    .then(async (placements) => await findLastEvent(placements))
+    .then(() => Placement.find({ status: 'outbided' })
+      .populate('wallet')
+      .populate('user')
+      .populate('asset')
+      .populate('bid'))
     .then((placements) => placements.map((placement) => placement.placeAbidView()))
     .then(async placements => await evaluatePlacements(placements))
     .then(success(res))

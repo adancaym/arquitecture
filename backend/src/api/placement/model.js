@@ -1,4 +1,4 @@
-import mongoose, {Schema} from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 import mongooseKeywords from 'mongoose-keywords'
 
 const placementSchema = new Schema({
@@ -45,7 +45,7 @@ const placementSchema = new Schema({
 })
 
 placementSchema.methods = {
-  view(full) {
+  view (full) {
     const view = {
       id: this.id,
       user: this.user.view(),
@@ -78,14 +78,14 @@ placementSchema.methods = {
         max_bid: this.bid.maximalBid, // form bid
         outbid_value: this.bid.outbidAmount, // form bid
         exp_time: this.bid.expirationTime, // form bid
-        collection_bid: this.event ? this.event[this.event.length - 1].bid_amount : null, // event last_bid
-        acc_offer: this.event ? this.event[this.event.length - 1].from_account.address : null, // event last_bid
+        collection_bid: this.event ? this.event.length > 0 ? this.event[this.event.length - 1].bid_amount : null : null, // event last_bid
+        acc_offer: this.event ? this.event.length > 0 ? this.event[this.event.length - 1].from_account.address : null : null // event last_bid
       }
     }
   }
 }
 
-placementSchema.plugin(mongooseKeywords, {paths: ['status']})
+placementSchema.plugin(mongooseKeywords, { paths: ['status'] })
 const model = mongoose.model('Placement', placementSchema)
 
 export const schema = model.schema
