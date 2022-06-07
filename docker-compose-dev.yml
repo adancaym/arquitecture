@@ -28,14 +28,11 @@ services:
       - JWT_SECRET=8EZ0QdhBOntJSuyZHXJHfVB4NCJQ4KqM
       - DEFAULT_EMAIL_BACKEND=adanyanezgonzalez@gmail.com
       - API_ROOT=/
-      - WEB3_PROVIDERS_HTTP_PROVIDER=https://mainnet.infura.io/v3/836e6a8258c14cae987e4dbc2dc4fe3b
-      - WEB3_PROJECT_ID=836e6a8258c14cae987e4dbc2dc4fe3b
-      - WEB3_PROJECT_SECRET=8b9d757732c64cbba50f5def3e3529bf
-      - OPENSEA_API_KEY=2f6f419a083c46de9d83ce3dbe7db601
+      - WEB3_PROVIDERS_HTTP_PROVIDER=https://rinkeby.infura.io/v3/3474ad1afab24ab49d8874963e26eeb7
     volumes:
       - ./backend:/home/node/app
     ports:
-      - "5001"
+      - "5001:5001"
     command: "npm run dev"
     networks:
       - shvl-net
@@ -48,6 +45,14 @@ services:
     stdin_open: true
     tty: true
     working_dir: /app
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 500M
+        reservations:
+          cpus: '1'
+          memory: 200M
     volumes:
       - ./frontend:/app
     ports:
@@ -95,11 +100,18 @@ services:
     hostname: cron-jobs
     container_name: cron-jobs
     working_dir: /app
+    volumes:
+      - ./cron_jobs:/app
     environment:
+      - CHOKIDAR_USEPOLLING=true
       - SELF_HOST=http://cron-jobs-server
       - SELF_PORT=4000
       - BACKEND_HOST=http://backend
       - BACKEND_PORT=5001
+      - MASTER_KEY=Sc4pGDcr8NeKPNouEXOQp1v784Dutmlt
+      - WEB3_PROJECT_ID=836e6a8258c14cae987e4dbc2dc4fe3b
+      - WEB3_PROJECT_SECRET=8b9d757732c64cbba50f5def3e3529bf
+      - OPENSEA_API_KEY=2f6f419a083c46de9d83ce3dbe7db601
     build:
       context: ./cron_jobs
       dockerfile: ./Dockerfile
@@ -113,6 +125,8 @@ services:
     hostname: cron-jobs-server
     container_name: cron-jobs-server
     working_dir: /app
+    volumes:
+      - ./cron_jobs-server:/app
     build:
       context: ./cron_jobs-server
       dockerfile: ./Dockerfile
@@ -120,7 +134,9 @@ services:
       - shvl-net
     depends_on:
       - backend
-    command: "node /app/index.js"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: "nodemon index.js"
 networks:
   shvl-net:
     external: true

@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
-import { token } from '../../services/passport'
-import { create, index, show, update, destroy } from './controller'
+import {master, token} from '../../services/passport'
+import {create, index, show, update, destroy, dispatch, dispatched, dispatchedError} from './controller'
 import { schema } from './model'
 export Placement, { schema } from './model'
 
@@ -44,6 +44,19 @@ router.get('/',
   token({ required: true }),
   query(),
   index)
+
+
+router.get('/dispatch',
+  master(),
+  dispatch)
+
+router.put('/dispatched/:id',
+  master(),
+  dispatched)
+
+router.put('/dispatched/error/:id',
+  master(),
+  dispatchedError)
 
 /**
  * @api {get} /placements/:id Retrieve placement

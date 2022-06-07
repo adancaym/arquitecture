@@ -1,30 +1,46 @@
-const HDWalletProvider = require("truffle-hdwallet-provider");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 const {OpenSeaPort, Network} = require('opensea-js')
 
 
-const place_a_bid = async (infura_key, priv_key, provider_key, token_id, contract_address, acc_address, desired_bid, max_bid, outbid_value, exp_time, collection_bid) => {
+const place_a_bid = async (body) => {
+    const {
+        infura_key,
+        priv_key,
+        provider_key,
+        token_id,
+        contract_address,
+        acc_address,
+        desired_bid,
+        max_bid,
+        outbid_value,
+        exp_time,
+        collection_bid
+    } = body
     const provider = web3provider(infura_key, priv_key);
     const openSeaPort = createSeaport(provider, provider_key);
     return place_bid_history(openSeaPort, token_id, contract_address, acc_address, desired_bid, max_bid, outbid_value, exp_time, collection_bid);
+
+
 }
 
 const web3provider = (infura_key, priv_key) => {
     try {
+        const privateKeys = [priv_key.toString()];
         return new HDWalletProvider({
-            privateKeys: [priv_key], providerOrUrl: infura_key, chainId: 4, // 4 for rinkeby testnet, check for mainnet
+            privateKeys, providerOrUrl: infura_key.toString(), chainId: '4', // 4 for rinkeby testnet, check for mainnet
         });
     } catch (error) {
-        throw new Error('Error creating web3 provider');
+        throw new Error('Error creating web3 provider ' + error.message + infura_key + priv_key);
     }
 }
 
 const createSeaport = (provider, opensea_key) => {
     try {
         return new OpenSeaPort(provider, {
-            netwoName: Network.Rinkeby, apiKey: opensea_key,
+            networkName: Network.Rinkeby, apiKey: opensea_key,
         });
     } catch (error) {
-        throw new Error('Error creating seaport');
+        throw new Error('Error creating seaport ' + error.message);
     }
 }
 
@@ -33,34 +49,42 @@ const place_bid = async (seaport, token_id, token_address, acc_address, bidOffer
         return seaport.createBuyOrder({
             asset: {
                 tokenId: token_id, tokenAddress: token_address,
-            }, accountAddress: acc_address, startAmount: bidOffer, expirationTime: Math.round(exp_time_unix),
+            },
+            accountAddress: acc_address,
+            startAmount: parseFloat(bidOffer).toFixed(18),
+            expirationTime: exp_time_unix,
+        }).catch((err) => {
+            throw new Error('Error placing bid ' + err.message);
         })
-            .then((response) => console.log(response))
-            .catch((err) => console.log('Error : ' + err))
     } catch (error) {
-        throw new Error('Error placing bid');
+        throw new Error('Error placing bid ' + error.message);
     }
 
 }
 
 async function place_bid_history(seaport, token_id, contract_address, acc_address, desired_bid, max_bid, outbid_value, exp_time, collection_bid) { // exp_time in minutes
+    const expire_time_temp = Math.round(Date.now() / 1000 + 60 * 60 * parseInt(exp_time))
 
     try {
-        const expire_time_temp = Date.now() / 1000 + exp_time * 60;
-
         if (!collection_bid) {
+            console.log("1")
+            console.table({token_id, contract_address, acc_address, desired_bid, expire_time_temp})
             return place_bid(seaport, token_id, contract_address, acc_address, desired_bid, expire_time_temp);
         }
         const last_bid = collection_bid / 1e18;
-        const bidOffer = last_bid + outbid_value;
+        const bidOffer = parseFloat(last_bid) + parseFloat(outbid_value);
         if (bidOffer <= desired_bid) {
+            console.log("2")
+            console.table({token_id, contract_address, acc_address, desired_bid, expire_time_temp})
             return place_bid(seaport, token_id, contract_address, acc_address, desired_bid, expire_time_temp);
         }
         if (bidOffer <= max_bid) {
+            console.log("3")
+            console.table({token_id, contract_address, acc_address, bidOffer, expire_time_temp})
             return place_bid(seaport, token_id, contract_address, acc_address, bidOffer, expire_time_temp);
         }
     } catch (error) {
-        throw new Error('Error placing bid history');
+        throw new Error('Error placing bid history' + error.message + ' ' + expire_time_temp.toString());
     }
 
 }

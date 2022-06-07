@@ -18,6 +18,7 @@ export class Placements extends Controller<PlacementResponse, PlacementCreate> {
             {type: 'readOnlyInTable', key: 'asset', label: 'Asset', reducer: e => <p>{e.asset.name}</p>},
             {type: 'readOnlyInTable', key: 'wallet', label: 'Wallet', reducer: e => <p>{e.wallet.name}</p>},
             {type: 'readOnlyInTable', key: 'bid', label: 'Bid', reducer: e => <p>{e.bid}</p>},
+            {type: 'readOnlyInTable', key: 'status', label: 'Status', reducer: e => <p>{e.status}</p>},
             {type: 'readOnlyInTable', key: 'event', label: 'Find last offer', reducer: e => <ModalToTable name={'Last offer'} size={'lg'}><JsonToTable json={e}/></ModalToTable>},
         ]);
     }

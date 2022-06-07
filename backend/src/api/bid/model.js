@@ -22,7 +22,7 @@ const bidSchema = new Schema({
     type: String
   },
   expirationTime: {
-    type: String
+    type: Number
   },
   assets: [{
     type: Schema.ObjectId,

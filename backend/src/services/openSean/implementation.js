@@ -75,6 +75,8 @@ export const findLastOffer = (process) => async (asset) => {
   }, process.provider, null)
 
   events = events.filter(cursor => cursor.event.payment_token.symbol === 'WETH')
+
+  console.log(events)
   const max = new Date(Math.max(...events.map(ae => new Date(ae.event_timestamp))))
   return events.find(event => new Date(event.event_timestamp).getTime() === max.getTime())
 }
@@ -97,6 +99,10 @@ export const getEvents = async ({
     .then(async response => {
       const { asset_events, next } = response
       assetsEvents = [...asset_events.map(ae => ({ event: ae, event_timestamp: ae.event_timestamp })), ...assetsEvents]
+      if (process.env.NODE_ENV === 'development') {
+        resolve(assetsEvents)
+        return
+      }
       if (!next) {
         resolve(assetsEvents)
         return
