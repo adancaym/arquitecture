@@ -31,9 +31,6 @@ services:
       - DEFAULT_EMAIL_BACKEND=adanyanezgonzalez@gmail.com
       - API_ROOT=/
       - WEB3_PROVIDERS_HTTP_PROVIDER=https://mainnet.infura.io/v3/836e6a8258c14cae987e4dbc2dc4fe3b
-      - WEB3_PROJECT_ID=836e6a8258c14cae987e4dbc2dc4fe3b
-      - WEB3_PROJECT_SECRET=8b9d757732c64cbba50f5def3e3529bf
-      - OPENSEA_API_KEY=2f6f419a083c46de9d83ce3dbe7db601
     volumes:
       - ./backend:/home/node/app
     ports:
