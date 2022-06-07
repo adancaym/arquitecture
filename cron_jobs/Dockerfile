@@ -7,7 +7,6 @@ COPY request_placement.js /app/request_placement.js
 COPY root /var/spool/cron/crontabs/root
 
 RUN apk add --update nodejs npm
-RUN apk add git
 RUN npm install yarn -g
 RUN npm install
 RUN chmod +x /bin/my_bash

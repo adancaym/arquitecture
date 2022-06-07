@@ -1,6 +1,6 @@
 import { success, notFound, authorOrAdmin } from '../../services/response/'
 import { Placement } from '.'
-import {evaluatePlacements} from './helpers';
+import { evaluatePlacements } from './helpers'
 
 export const create = ({ user, bodymen: { body } }, res, next) =>
   Placement.create({ ...body, user })
@@ -32,8 +32,17 @@ export const dispatch = (req, res, next) =>
     .then(async placements => await evaluatePlacements(placements))
     .then(success(res))
     .catch(next)
-
-
+export const outBidPlacement = (req, res, next) =>
+  Placement.find({ $or: [{ status: { $eq: 'placed' } }, { status: { $eq: 'dispatched' } }] })
+    .populate('wallet')
+    .populate('user')
+    .populate('asset')
+    .populate('bid')
+    //
+    .then((placements) => placements.map((placement) => placement.placeAbidView()))
+    .then(async placements => await evaluatePlacements(placements))
+    .then(success(res))
+    .catch(next)
 
 export const dispatched = ({ body: { order }, params: { id } }, res, next) =>
   Placement.findById(id)

@@ -1,4 +1,7 @@
-import { Placement } from '.'
+import placement, { Placement } from '.'
+import { findLastOffer } from '../../services/openSean/implementation'
+import { Process } from '../process'
+import {Asset} from "../asset";
 
 export const evaluatePlacements = async (placemnets) => {
   const diferentAccountOffer = await getAlreadyNotPlaced(placemnets)
@@ -37,4 +40,14 @@ export const getPlacementsInTime = async (placements) => {
     exptime.setHours(exptime.getHours() + parseInt(placement.placeABid.exp_time))
     return new Date() <= exptime
   })
+}
+
+export const findLastEvent = async (placements) => {
+  const process = await Process.findOne({ name: 'extract-events' })
+    .populate('provider')
+    .then(p => p.view())
+  for (const p of placements) {
+    p.asset = await findLastOffer(process)(p.asset)
+    p.save()
+  }
 }

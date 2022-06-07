@@ -75,8 +75,6 @@ export const findLastOffer = (process) => async (asset) => {
   }, process.provider, null)
 
   events = events.filter(cursor => cursor.event.payment_token.symbol === 'WETH')
-
-  console.log(events)
   const max = new Date(Math.max(...events.map(ae => new Date(ae.event_timestamp))))
   return events.find(event => new Date(event.event_timestamp).getTime() === max.getTime())
 }
