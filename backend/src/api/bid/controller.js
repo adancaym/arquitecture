@@ -24,7 +24,7 @@ export const saveBid = (bid) => {
           try {
             const { event } = await findLastOffer(process)(bid.asset)
             delete event.asset
-            bid.event = event
+            bid.event = [event]
             await Placement.create(bid).then(p => p.view())
           } catch (e) {
             await Placement.create(bid).then(p => p.view())

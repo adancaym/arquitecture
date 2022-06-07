@@ -11,7 +11,6 @@ services:
     hostname: backend
     links:
       - mongo
-    image: "node:latest"
     working_dir: /home/node/app
     build:
       context: ./backend
@@ -157,6 +156,8 @@ services:
       - shvl-net
     depends_on:
       - backend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     command: "node /app/index.js"
 networks:
   shvl-net:

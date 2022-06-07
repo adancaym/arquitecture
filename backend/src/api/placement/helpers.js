@@ -47,7 +47,7 @@ export const findLastEvent = async (placements) => {
     .populate('provider')
     .then(p => p.view())
   for (const p of placements) {
-    p.asset = await findLastOffer(process)(p.asset)
+    p.event.push(await findLastOffer(process)(p.asset))
     p.save()
   }
 }
