@@ -47,7 +47,7 @@ export const findLastEvent = async (placements) => {
     const viewp = p.placeAbidView()
     const exptime = new Date()
     exptime.setHours(exptime.getHours() + parseInt(viewp.placeABid.exp_time))
-    if (new Date() >= exptime) {
+    if (new Date() < exptime) {
       p.status = 'outbided'
       const { event } = await findLastOffer(process)(p.asset.id)
       p.event.push(event)
