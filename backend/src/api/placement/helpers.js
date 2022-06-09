@@ -45,7 +45,7 @@ export const findLastEvent = async (placements) => {
     .then(p => p.view())
   for (const p of placements) {
     const viewp = p.placeAbidView()
-    const exptime = new Date()
+    const exptime = new Date(p.createdAt)
     exptime.setHours(exptime.getHours() + parseInt(viewp.placeABid.exp_time))
     if (new Date() < exptime) {
       p.status = 'outbided'
