@@ -91,6 +91,8 @@ services:
       - backend
     environment:
       - CHOKIDAR_USEPOLLING=true
+      - NETWORK_OPENSEA_PORT=rinkeby
+      - WEB3_PROVIDER=4
     command: "nodemon index.js"
 networks:
   shvl-net:

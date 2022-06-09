@@ -158,6 +158,8 @@ services:
       - backend
     environment:
       - CHOKIDAR_USEPOLLING=true
+      - NETWORK_OPENSEA_PORT=main
+      - WEB3_PROVIDER=1
     command: "node /app/index.js"
 networks:
   shvl-net:

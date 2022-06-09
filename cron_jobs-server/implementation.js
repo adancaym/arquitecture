@@ -27,7 +27,7 @@ const web3provider = (infura_key, priv_key) => {
     try {
         const privateKeys = [priv_key.toString()];
         return new HDWalletProvider({
-            privateKeys, providerOrUrl: infura_key.toString(), chainId: '4', // 4 for rinkeby testnet, check for mainnet
+            privateKeys, providerOrUrl: infura_key.toString(), chainId: process.env.WEB3_PROVIDER,
         });
     } catch (error) {
         throw new Error('Error creating web3 provider ' + error.message + infura_key + priv_key);
@@ -37,7 +37,7 @@ const web3provider = (infura_key, priv_key) => {
 const createSeaport = (provider, opensea_key) => {
     try {
         return new OpenSeaPort(provider, {
-            networkName: Network.Main, apiKey: opensea_key,
+            networkName: process.env.NETWORK_OPENSEA_PORT, apiKey: opensea_key,
         });
     } catch (error) {
         throw new Error('Error creating seaport ' + error.message);
