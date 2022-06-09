@@ -4,11 +4,14 @@ import { Placement } from '../placement'
 import { Process } from '../process'
 import { findLastOffer } from '../../services/openSean/implementation'
 
-export const create = ({ header, user, bodymen: { body } }, res, next) => Bid.create({ body, user })
-  .then((bid) => bid.view(true))
-  .then(success(res, 201))
-  .then(saveBid)
-  .catch(next)
+export const create = ({ header, user, bodymen: { body } }, res, next) => {
+  console.log('body', body)
+  return Bid.create({ ...body, user })
+    .then((bid) => bid.view(true))
+    .then(success(res, 201))
+    .then(saveBid)
+    .catch(next)
+}
 
 export const saveBid = (bid) => {
   const { assets, id, user, wallet } = bid
