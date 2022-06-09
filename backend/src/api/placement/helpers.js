@@ -44,9 +44,14 @@ export const findLastEvent = async (placements) => {
     .populate('provider')
     .then(p => p.view())
   for (const p of placements) {
-    p.status = 'outbided'
-    const { event } = await findLastOffer(process)(p.asset.id)
-    p.event.push(event)
-    await p.save()
+    const viewp = p.placeAbidView()
+    const exptime = new Date()
+    exptime.setHours(exptime.getHours() + parseInt(viewp.placeABid.exp_time))
+    if (new Date() >= exptime) {
+      p.status = 'outbided'
+      const { event } = await findLastOffer(process)(p.asset.id)
+      p.event.push(event)
+      await p.save()
+    }
   }
 }

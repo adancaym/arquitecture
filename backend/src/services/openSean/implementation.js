@@ -60,6 +60,7 @@ export const fullProcessCreateCollection = (processes) => (srcCollection) => {
 }
 
 export const findLastOffer = (process) => async (asset) => {
+  console.log('pido evento')
   const now = new Date()
   now.setDate(new Date().getDate() - 1)
   const utcMilllisecondsSinceEpoch = now.getTime() + (now.getTimezoneOffset() * 60 * 1000)
