@@ -37,7 +37,7 @@ const web3provider = (infura_key, priv_key) => {
 const createSeaport = (provider, opensea_key) => {
     try {
         return new OpenSeaPort(provider, {
-            networkName: Network.Rinkeby, apiKey: opensea_key,
+            networkName: Network.Main, apiKey: opensea_key,
         });
     } catch (error) {
         throw new Error('Error creating seaport ' + error.message);
