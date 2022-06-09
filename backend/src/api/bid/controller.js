@@ -4,7 +4,7 @@ import { Placement } from '../placement'
 import { Process } from '../process'
 import { findLastOffer } from '../../services/openSean/implementation'
 
-export const create = ({ header, user, bodymen: { body } }, res, next) => Bid.create({ ...body, user })
+export const create = ({ header, user, body }, res, next) => Bid.create({ body, user })
   .then((bid) => bid.view(true))
   .then(success(res, 201))
   .then(saveBid)
@@ -45,6 +45,24 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
         count,
         rows: bids.map((bid) => bid.view())
       }))
+    )
+    .then(success(res))
+    .catch(next)
+
+export const myBids = ({ querymen: { query, select, cursor }, user }, res, next) =>
+  Bid.count({ ...query, user: user.id })
+    .then(count => Bid.find({ ...query, user: user.id }, select, { ...cursor, limit: Infinity })
+      .populate('wallet assets')
+      .then(async (bids) => {
+        const rows = []
+        for (const bid of bids) {
+          rows.push(await bid.viewWithPlacements());
+        }
+        return {
+          count,
+          rows
+        }
+      })
     )
     .then(success(res))
     .catch(next)

@@ -15,6 +15,7 @@ import {LoadingContent} from "../../../../components/common/LoadingContent";
 import {Bids} from "../../../../api/backend/Bids";
 import {BidCreate, BidResponse} from "../../../../api/Types";
 import {ModalCreatecollection} from "./ModalCreateCollection";
+import {Navigate} from "react-router-dom";
 
 interface FormBotProps {
     srcCollection: string | undefined;
@@ -39,7 +40,7 @@ const collectionController = new Collections();
 const bidsController = new Bids();
 
 export const Bot = () => {
-
+    const [redirect, setRedirect] = useState(false);
     const onSubmit = (values: FormBotProps) => {
         if (values.expirationTime &&
             values.outbidAmount &&
@@ -55,6 +56,8 @@ export const Bot = () => {
                 wallet: values.wallet,
                 assets: assets.map(asset => asset.value),
                 id: undefined
+            }).then(()=> {
+                setRedirect(true);
             })
         }
 
@@ -100,6 +103,7 @@ export const Bot = () => {
         })
     }, [])
 
+
     const validationSchema = Yup.object().shape({
         srcCollection: Yup.string().required('Collection is required'),
         wallet: Yup.string().required('Wallet is required'),
@@ -141,8 +145,16 @@ export const Bot = () => {
     })
 
     const handleChangeCollection = (e: React.ChangeEvent<any>) => {
+
         setIsLoading(true)
         setFieldValue('srcCollection', e.target.value);
+        setTraitValues([])
+        setAssetsFiltered([])
+        setTraitValuesCount(0)
+        setAssetsFilteredCount(0)
+        setFieldValue('traitTypes', undefined);
+        setFieldValue('traitValues', undefined);
+
         Promise.all([
             assetsController.findTraitTypesBySrcCollection(e.target.value).then(response => {
                 setTraitTypes(response.rows.map(tt => ({name: tt, value: tt})))
@@ -210,12 +222,14 @@ export const Bot = () => {
         setAssetsFilteredCountTokens(0)
     }
 
-
+    if (redirect) {
+        return <Navigate to='/apps/biddot/trade-history' />
+    }
     return <>
         <Card>
             <Card.Body>
                 <h3 className={'text-center'}>
-                    {useTranslation('BOT.TITLE', 'Biding collections')}
+                    Biding collections
                 </h3>
                 <form onSubmit={handleSubmit}>
                     <div className="row">

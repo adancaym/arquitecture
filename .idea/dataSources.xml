@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@localhost" uuid="df1fa0ed-09d7-4608-b6fe-764655dc6ab6">
+    <data-source source="LOCAL" name="backend-prod@localhost" uuid="df1fa0ed-09d7-4608-b6fe-764655dc6ab6">
       <driver-ref>mongo</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
-      <jdbc-url>mongodb://localhost:27017</jdbc-url>
+      <jdbc-url>mongodb://localhost:27017/backend-prod</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="@shvl.ai" uuid="5e52c6e4-abd2-4a73-b725-475489139c68">

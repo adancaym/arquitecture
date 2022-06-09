@@ -60,7 +60,7 @@ router.get('/dispatch',
   master(),
   dispatch)
 
-router.get('/dispatch/outbif',
+router.get('/dispatch/outbid',
   // master(),
   outBidPlacement)
 

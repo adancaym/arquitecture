@@ -3,8 +3,7 @@ import { Asset } from '.'
 import {
   pipelineFindBySrcCollectionAndTraitValue,
   pipelineFindCollectionRangeTokenId,
-  pipelineFindTraitTypesBySrcCollection,
-  pipelineFindTraitValuesBySrcCollectionAndTypeTrait
+  pipelineFindTraitCollection
 } from './pipelines'
 
 export const create = ({ bodymen: { body } }, res, next) => Asset.create(body)
@@ -70,26 +69,26 @@ export const findBySrcCollection = ({ query: { srcCollection }, querymen: { sele
     .catch(next)
 
 export const findTraitTypesBySrcCollection = ({ query: { srcCollection } }, res, next) =>
-  Asset.aggregate(pipelineFindTraitTypesBySrcCollection(srcCollection))
-    .then(r => {
-      console.log(r,'_________________________________________________________')
-      const [result] = r
-      // eslint-disable-next-line camelcase
-      const { trait_types } = result
-      // eslint-disable-next-line camelcase
-      return { count: trait_types.length, rows: trait_types }
-    })
+  Asset.aggregate(pipelineFindTraitCollection(srcCollection)).then(r => {
+    // eslint-disable-next-line camelcase
+    const traits = r.map(r => [...r.traits]).reduce((a, b) => a.concat(b), [])
+    // eslint-disable-next-line camelcase
+    const rows = Array.from(new Set(traits.map(t => t.trait_type)))
+    // eslint-disable-next-line camelcase
+    return { count: rows.length, rows }
+  })
     .then(success(res))
     .catch(next)
 
 // eslint-disable-next-line camelcase
 export const findTraitValuesBySrcCollectionAndTypeTrait = ({ query: { srcCollection, type_trait } }, res, next) =>
-  Asset.aggregate(pipelineFindTraitValuesBySrcCollectionAndTypeTrait(srcCollection, type_trait)).then(r => {
-    const [result] = r
+  Asset.aggregate(pipelineFindTraitCollection(srcCollection)).then(r => {
     // eslint-disable-next-line camelcase
-    const { trait_values } = result
+    const traits = r.map(r => [...r.traits]).reduce((a, b) => a.concat(b), [])
     // eslint-disable-next-line camelcase
-    return { count: trait_values.length, rows: trait_values }
+    const rows = Array.from(new Set(traits.filter(t => t.trait_type === type_trait).map(t => t.value)))
+    // eslint-disable-next-line camelcase
+    return { count: rows.length, rows }
   })
     .then(success(res))
     .catch(next)

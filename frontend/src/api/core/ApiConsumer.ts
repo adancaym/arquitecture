@@ -15,7 +15,7 @@ export interface ResponseFormat<R> {
     count: number;
 }
 
-export const processReponse = <R>({status, data, headers, config}: AxiosResponse<R>) => {
+export const processReponse = <R>({status, data, config}: AxiosResponse<R>) => {
     const msg = statusCode.find(sc => sc.code === status)?.msg || '';
     const {url, data: configData, method} = config;
     Logger(`Method: ${method}, url: ${url}, ${JSON.stringify(configData)} ${msg}`)

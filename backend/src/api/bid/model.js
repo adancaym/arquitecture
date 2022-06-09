@@ -1,16 +1,13 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, {Schema} from 'mongoose'
 import mongooseKeywords from 'mongoose-keywords'
+import {Placement} from '../placement'
 
 const bidSchema = new Schema({
   user: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: true
+    type: Schema.ObjectId, ref: 'User', required: true
   },
   wallet: {
-    type: Schema.ObjectId,
-    ref: 'Wallet',
-    required: true
+    type: Schema.ObjectId, ref: 'Wallet', required: true
   },
   minimalBid: {
     type: String
@@ -25,21 +22,36 @@ const bidSchema = new Schema({
     type: Number
   },
   assets: [{
-    type: Schema.ObjectId,
-    ref: 'Asset',
-    required: true
-  }
-  ]
+    type: Schema.ObjectId, ref: 'Asset', required: true
+  }]
 }, {
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (obj, ret) => { delete ret._id }
+    transform: (obj, ret) => {
+      delete ret._id
+    }
   }
 })
 
 bidSchema.methods = {
-  view (full) {
+  async viewWithPlacements() {
+    const assets = []
+    for (const asset of this.assets) {
+      const assetView = asset.view()
+      assets.push(
+        {
+          ...assetView,
+          placements: await Placement.find({ bid: this.id, asset: assetView.id })
+        })
+    }
+    return {
+      ...this.view(),
+      assets,
+      wallet: this.wallet.name
+    }
+  },
+  view(full) {
     const view = {
       // simple view
       id: this.id,
@@ -61,7 +73,7 @@ bidSchema.methods = {
   }
 }
 
-bidSchema.plugin(mongooseKeywords, { paths: ['minimalBid', 'maximalBid', 'outbidAmount', 'expirationTime'] })
+bidSchema.plugin(mongooseKeywords, {paths: ['minimalBid', 'maximalBid', 'outbidAmount', 'expirationTime']})
 const model = mongoose.model('Bid', bidSchema)
 
 export const schema = model.schema

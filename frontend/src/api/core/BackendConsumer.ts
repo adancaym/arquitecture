@@ -13,7 +13,7 @@ export class BackendConsumer extends ApiConsumer {
         }
     }
 
-    create<R, S>(object: S): Promise<R> {
+    create<R, S>(object: S,  options?: IOptions): Promise<R> {
         return super
             .create<R, S>(
                 object,

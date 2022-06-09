@@ -1,14 +1,14 @@
-import {Router} from 'express'
-import {middleware as query} from 'querymen'
-import {middleware as body} from 'bodymen'
-import {password as passwordAuth, master, token} from '../../services/passport'
-import {index, showMe, show, create, update, updatePassword, destroy} from './controller'
-import {schema} from './model'
+import { Router } from 'express'
+import { middleware as query } from 'querymen'
+import { middleware as body } from 'bodymen'
+import { password as passwordAuth, master, token } from '../../services/passport'
+import { index, showMe, show, create, update, updatePassword, destroy } from './controller'
+import { schema } from './model'
 
-export User, {schema} from './model'
+export User, {schema } from './model'
 
 const router = new Router()
-const {email, password, name, picture, role, groups, subscriptions} = schema.tree
+const { email, password, name, picture, role, groups, subscriptions } = schema.tree
 
 /**
  * @api {get} /users Retrieve users
@@ -22,7 +22,7 @@ const {email, password, name, picture, role, groups, subscriptions} = schema.tre
  * @apiError 401 Admin access only.
  */
 router.get('/',
-  token({required: true}),
+  token({ required: true }),
   query(),
   index)
 
@@ -35,7 +35,7 @@ router.get('/',
  * @apiSuccess {Object} user User's data.
  */
 router.get('/me',
-  token({required: true}),
+  token({ required: true }),
   showMe)
 
 /**
@@ -66,8 +66,8 @@ router.get('/:id',
  * @apiError 409 Email already registered.
  */
 router.post('/',
-  master(),
-  body({email, password, name, picture, role, groups}),
+  token({ required: true }),
+  body({ email, password, name, picture, role, groups }),
   create)
 
 /**
@@ -84,8 +84,8 @@ router.post('/',
  * @apiError 404 User not found.
  */
 router.put('/:id',
-  token({required: true}),
-  body({name, picture, groups, subscriptions}),
+  token({ required: true }),
+  body({ name, picture, password, groups, subscriptions }),
   update)
 
 /**
@@ -101,7 +101,7 @@ router.put('/:id',
  */
 router.put('/:id/password',
   passwordAuth(),
-  body({password}),
+  body({ password }),
   updatePassword)
 
 /**
@@ -115,7 +115,7 @@ router.put('/:id/password',
  * @apiError 404 User not found.
  */
 router.delete('/:id',
-  token({required: true, roles: ['admin']}),
+  token({ required: true, roles: ['admin'] }),
   destroy)
 
 export default router

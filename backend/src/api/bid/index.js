@@ -1,14 +1,14 @@
-import {Router} from 'express'
-import {middleware as query} from 'querymen'
-import {middleware as body} from 'bodymen'
-import {token} from '../../services/passport'
-import {create, index, show, update, destroy} from './controller'
-import {schema} from './model'
+import { Router } from 'express'
+import { middleware as query } from 'querymen'
+import { middleware as body } from 'bodymen'
+import { token } from '../../services/passport'
+import { create, index, show, update, destroy, myBids } from './controller'
+import { schema } from './model'
 
-export Bid, {schema} from './model'
+export Bid, {schema } from './model'
 
 const router = new Router()
-const {wallet, minimalBid, maximalBid, outbidAmount, expirationTime, assets} = schema.tree
+const { wallet, minimalBid, maximalBid, outbidAmount, expirationTime, assets } = schema.tree
 
 /**
  * @api {post} /bids Create bid
@@ -28,8 +28,8 @@ const {wallet, minimalBid, maximalBid, outbidAmount, expirationTime, assets} = s
  * @apiError 401 user access only.
  */
 router.post('/',
-  token({required: true}),
-  body({wallet, minimalBid, maximalBid, outbidAmount, expirationTime, assets}),
+  token({ required: true }),
+  body({ wallet, minimalBid, maximalBid, outbidAmount, expirationTime, assets }),
   create)
 
 /**
@@ -45,9 +45,14 @@ router.post('/',
  * @apiError 401 user access only.
  */
 router.get('/',
-  token({required: true}),
+  token({ required: true }),
   query(),
   index)
+
+router.get('/mybids',
+  token({ required: true }),
+  query(),
+  myBids)
 
 /**
  * @api {get} /bids/:id Retrieve bid
@@ -61,7 +66,7 @@ router.get('/',
  * @apiError 401 user access only.
  */
 router.get('/:id',
-  token({required: true}),
+  token({ required: true }),
   show)
 
 /**
@@ -82,8 +87,8 @@ router.get('/:id',
  * @apiError 401 user access only.
  */
 router.put('/:id',
-  token({required: true}),
-  body({wallet, minimalBid, maximalBid, outbidAmount, expirationTime, assets}),
+  token({ required: true }),
+  body({ wallet, minimalBid, maximalBid, outbidAmount, expirationTime, assets }),
   update)
 
 /**
@@ -97,7 +102,7 @@ router.put('/:id',
  * @apiError 401 user access only.
  */
 router.delete('/:id',
-  token({required: true}),
+  token({ required: true }),
   destroy)
 
 export default router

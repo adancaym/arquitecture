@@ -12,53 +12,11 @@ export const pipelineFindCollectionRangeTokenId = (collection, from, to) => ({
   }
 })
 
-export const pipelineFindTraitTypesBySrcCollection = (collection) => [
+
+export const pipelineFindTraitCollection = (collection) => [
   { $match: { $expr: { $eq: ['$srcCollection', { $toObjectId: collection }] } } },
   {
-    $group: {
-      _id: null,
-      trait_types: { $push: '$asset.traits.trait_type' }
-    }
-  },
-  {
-    $project: {
-      trait_types: {
-        $reduce: {
-          input: '$trait_types',
-          initialValue: [],
-          in: { $setUnion: ['$$value', '$$this'] }
-        }
-      }
-    }
-  }
-]
-
-export const pipelineFindTraitValuesBySrcCollectionAndTypeTrait = (collection, typeTrait) => [
-  {
-    $match: {
-      $and: [
-        { $expr: { $eq: ['$srcCollection', { $toObjectId: collection }] } },
-        { 'asset.traits.trait_type': { $eq: typeTrait } }
-      ]
-
-    }
-  },
-  {
-    $group: {
-      _id: null,
-      trait_values: { $push: '$asset.traits.value' }
-    }
-  },
-  {
-    $project: {
-      trait_values: {
-        $reduce: {
-          input: '$trait_values',
-          initialValue: [],
-          in: { $setUnion: ['$$value', '$$this'] }
-        }
-      }
-    }
+    $project: { traits: '$asset.traits', _id: 0 }
   }
 ]
 

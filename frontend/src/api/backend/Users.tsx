@@ -9,6 +9,7 @@ import {ArrayObjectReducer} from "../core/FieldReducers";
 import {Suscriptions} from "./Suscriptions";
 
 
+
 export class Users extends Controller<UserFull, UserCreate> {
     forms: FormHelper<UserCreate>
     table: EntityHtmlHelper<UserFull>
@@ -39,6 +40,7 @@ export class Users extends Controller<UserFull, UserCreate> {
             {type: 'id', key: 'id', label: 'id'},
             {type: 'text', key: 'email', label: 'email'},
             {type: 'text', key: 'name', label: 'Nombre'},
+            {type: 'password', key: 'password', label: 'Password'},
             {
                 type: 'arraySelect',
                 key: 'subscriptions',

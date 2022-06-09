@@ -1,20 +1,15 @@
 import {Controller} from "../core/Controller";
 import {
-    AssetResponse,
-    AssetCreate,
-    AssetResponseSort,
     BidResponse,
     BidCreate,
-    CollectionCreate,
-    MenuCreate
 } from "../Types";
 import {EntityHtmlHelper} from "../core/EntityHtmlHelper";
-import {ModalToTable} from "../core/FieldReducers";
-import {JsonToTable} from "react-json-to-table";
-import {catchReponse, processReponse, ResponseFormat} from "../core/ApiConsumer";
-import {IOptions} from "../core/Endpoint";
+
 import {FormHelper} from "../core/Forms";
 import * as Yup from "yup";
+import {IOptions} from "../core/Endpoint";
+import {catchReponse, processReponse, ResponseFormat} from "../core/ApiConsumer";
+import {BidWithPlacement} from "../shvl/BidsWithPlacements";
 
 export class Bids extends Controller<BidResponse, BidCreate> {
     table: EntityHtmlHelper<BidResponse>
@@ -63,6 +58,12 @@ export class Bids extends Controller<BidResponse, BidCreate> {
             minimalBid: object.minimalBid,
             outbidAmount: object.outbidAmount
         };
+    }
+
+    myBids(params?: IOptions): Promise<BidWithPlacement> {
+        return this.http.get<BidWithPlacement>(this.endpoint.appendUri('mybids').toString(), params)
+            .then(processReponse)
+            .catch(catchReponse)
     }
 }
 
