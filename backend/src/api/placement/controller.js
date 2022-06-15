@@ -39,7 +39,7 @@ export const outBidPlacement = (req, res, next) =>
     .populate('asset')
     .populate('bid')
     .then(async (placements) => await findLastEvent(placements))
-    .then(() => Placement.find({ status: 'outbided' })
+    .then(() => Placement.find({ status: 'outbided' }, { limit: 4 })
       .populate('wallet')
       .populate('user')
       .populate('asset')
