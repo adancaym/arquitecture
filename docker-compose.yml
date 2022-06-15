@@ -29,7 +29,7 @@ services:
       - JWT_SECRET=8EZ0QdhBOntJSuyZHXJHfVB4NCJQ4KqM
       - DEFAULT_EMAIL_BACKEND=adanyanezgonzalez@gmail.com
       - API_ROOT=/
-      - WEB3_PROVIDERS_HTTP_PROVIDER=https://mainnet.infura.io/v3/836e6a8258c14cae987e4dbc2dc4fe3b
+      - WEB3_PROVIDERS_HTTP_PROVIDER=https://mainnet.infura.io/v3/3474ad1afab24ab49d8874963e26eeb7
     volumes:
       - ./backend:/home/node/app
     ports:

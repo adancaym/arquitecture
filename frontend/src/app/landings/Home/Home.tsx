@@ -46,178 +46,182 @@ const cardsHorizontal: Card[] = [
     }
 ]
 export const Home = () => {
-    return <div className={'home-bg d-grid gap-5'}>
-        <Navigation/>
-        <Hero>
-            <div className="text-center d-grid gap-5">
-                <h1>THE MOST SOPHISTICATED NFT TRADING BOT AND ANALYTICS PLATFORM AVAILABLE IN THE MARKET</h1>
-                <h2>Grow your NFT portfolio and outperform the market with the next generation of tools and
-                    analytics </h2>
-                <button className={'btn  btn-outline mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
-                <h1>HOW CAN SHVL BENEFIT YOU ?</h1>
-                <h2>By leveraging our tools and platform that work holistically you will<br/> be able to save
-                    significant amount of time deploying your <br/>strategy and become profitable trading NFTs</h2>
-            </div>
 
-        </Hero>
-        <Hero>
-            <CardsVertical cards={cardsVertical}/>
-            <button className={'btn  btn-outline mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
-        </Hero>
-        <Hero>
-            <CardsHorizontal cards={cardsHorizontal}/>
-            <button className={'btn  btn-outline mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
-        </Hero>
-        <Hero>
-            <h1 className={''}>
-                HOW DOES SHVL COMPARE AGAINST OTHER PROVIDERS?
-            </h1>
-            <Table responsive striped hover >
-                <thead>
-                <tr>
-                    <th><h2>Provider</h2></th>
-                    <th><h2>Price</h2></th>
-                    <th><h2>Volume</h2></th>
-                    <th><h2>Marketcap</h2></th>
-                    <th><h2>Change</h2></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                <tr>
-                    <td>Coinbase</td>
-                    <td>$1,000</td>
-                    <td>1,000</td>
-                    <td> Lorem ipsum dolor sit amet.</td>
-                    <td>Lorem ipsum.</td>
-                </tr>
-                </tbody>
-            </Table>
-            <button className={'btn btn-outline  mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
-        </Hero>
-        <Hero>
-            <h1 className={''}>
-                BIDDING BOT DEMO
-            </h1>
-            <iframe
-                height={'300'}
-                className={' mx-auto w-100' }
-                src="https://www.youtube.com/embed/5Peo-ivmupE"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen></iframe>
-            <button className={'btn btn-outline  mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
-        </Hero>
-    </div>
+    return <>
+        <h1>EN mantenimiento</h1>
+    </>
+    /**return <div className={'home-bg d-grid gap-5'}>
+     <Navigation/>
+     <Hero>
+     <div className="text-center d-grid gap-5">
+     <h1>THE MOST SOPHISTICATED NFT TRADING BOT AND ANALYTICS PLATFORM AVAILABLE IN THE MARKET</h1>
+     <h2>Grow your NFT portfolio and outperform the market with the next generation of tools and
+     analytics </h2>
+     <button className={'btn  btn-outline mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
+     <h1>HOW CAN SHVL BENEFIT YOU ?</h1>
+     <h2>By leveraging our tools and platform that work holistically you will<br/> be able to save
+     significant amount of time deploying your <br/>strategy and become profitable trading NFTs</h2>
+     </div>
+
+     </Hero>
+     <Hero>
+     <CardsVertical cards={cardsVertical}/>
+     <button className={'btn  btn-outline mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
+     </Hero>
+     <Hero>
+     <CardsHorizontal cards={cardsHorizontal}/>
+     <button className={'btn  btn-outline mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
+     </Hero>
+     <Hero>
+     <h1 className={''}>
+     HOW DOES SHVL COMPARE AGAINST OTHER PROVIDERS?
+     </h1>
+     <Table responsive striped hover >
+     <thead>
+     <tr>
+     <th><h2>Provider</h2></th>
+     <th><h2>Price</h2></th>
+     <th><h2>Volume</h2></th>
+     <th><h2>Marketcap</h2></th>
+     <th><h2>Change</h2></th>
+     </tr>
+     </thead>
+     <tbody>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     <tr>
+     <td>Coinbase</td>
+     <td>$1,000</td>
+     <td>1,000</td>
+     <td> Lorem ipsum dolor sit amet.</td>
+     <td>Lorem ipsum.</td>
+     </tr>
+     </tbody>
+     </Table>
+     <button className={'btn btn-outline  mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
+     </Hero>
+     <Hero>
+     <h1 className={''}>
+     BIDDING BOT DEMO
+     </h1>
+     <iframe
+     height={'300'}
+     className={' mx-auto w-100' }
+     src="https://www.youtube.com/embed/5Peo-ivmupE"
+     title="YouTube video player"
+     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+     allowFullScreen></iframe>
+     <button className={'btn btn-outline  mx-auto btn-primary'}>GET EARLY ACCESS NOW</button>
+     </Hero>
+     </div>**/
 }
