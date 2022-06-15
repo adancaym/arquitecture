@@ -10,7 +10,8 @@ const {
 try {
     axios.get(`${BACKEND_HOST}:${BACKEND_PORT}/placements//dispatch/outbid`, {
         params: {
-            access_token: MASTER_KEY
+            access_token: MASTER_KEY,
+            limit: 2
         }
     }).then((async ({data}) => {
         console.log(data)
