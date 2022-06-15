@@ -23,7 +23,7 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .catch(next)
 
 export const dispatch = (req, res, next) =>
-  Placement.find({ status: 'created' })
+  Placement.find({ status: 'created' }, { limit: 4 })
     .populate('wallet')
     .populate('user')
     .populate('asset')
@@ -33,7 +33,7 @@ export const dispatch = (req, res, next) =>
     .then(success(res))
     .catch(next)
 export const outBidPlacement = (req, res, next) =>
-  Placement.find({ $or: [{ status: { $eq: 'placed' } }, { status: { $eq: 'dispatched' } }] })
+  Placement.find({ $or: [{ status: { $eq: 'placed' } }, { status: { $eq: 'dispatched' } }] }, { limit: 4 })
     .populate('wallet')
     .populate('user')
     .populate('asset')
