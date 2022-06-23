@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 import { mongo } from '../../config'
 
-Object.keys(mongo.options || { }).forEach((key) => {
-  if (process.env.NODE_ENV==='production')
-  mongoose.set(key, mongo.options[key])
-})
+// Object.keys(mongo.options || { }).forEach((key) => {
+//  if (process.env.NODE_ENV==='production')
+// mongoose.set(key, mongo.options[key])
+// })
 
 /* istanbul ignore next */
 mongoose.Types.ObjectId.prototype.view = function () {
@@ -15,5 +15,6 @@ mongoose.Types.ObjectId.prototype.view = function () {
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error: ' + err)
 })
+mongoose.set('debug', true);
 
 export default mongoose

@@ -138,9 +138,18 @@ export interface Catalog {
 export interface CollectionResponse {
     id: string,
     name: string
+    slug: string
+    minToken: number
+    maxToken: number
+    totalAssets: number
+    totalAssetPopulated: number
+    status: string
     provider: string;
-    apikey: string
-    srcCollection?: SrcCollection
+    detail?: SrcCollection
+    traits: Array<{
+        key: string,
+        value: Array<string>
+    }>
     createdAt: Date
     updatedAt: Date
 }
@@ -154,15 +163,14 @@ export interface AssetResponse {
     id: string;
     name: string
     srcCollection: SrcCollection,
-    provider: string;
-    asset: Asset;
+    detail: Asset;
     createdAt: Date;
     updatedAt: Date;
 }
 
 export interface AssetResponseSort {
     id: string;
-    asset: Asset;
+    name: Asset;
 }
 
 export interface AssetCreate {

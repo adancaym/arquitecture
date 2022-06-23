@@ -1,18 +1,74 @@
-import { success, notFound } from '../../services/response/'
+import { notFound, success } from '../../services/response/'
 import { Asset } from '.'
 import {
   pipelineFindBySrcCollectionAndTraitValue,
   pipelineFindCollectionRangeTokenId,
   pipelineFindTraitCollection
 } from './pipelines'
+import { SrcCollection } from '../srcCollection'
+import { getAssetsForCollection } from '../../services/openSean/implementation'
 
 export const create = ({ bodymen: { body } }, res, next) => Asset.create(body)
   .then((asset) => asset.view(true))
   .then(success(res, 201))
   .catch(next)
 
+export const pupulateCollectionAsset = async (req, res, next) => SrcCollection
+  .find(
+    { $or: [{ status: { $eq: 'created' } }, { status: { $eq: 're-created' } }] },
+    {},
+    {
+      sort: {
+        totalAssets: -1
+      }
+    }
+  )
+  .populate('provider')
+  .then(srcCollections => srcCollections.map(srcCollection => srcCollection.view()))
+  .then(async srcCollections => {
+    for (const srcCollection of srcCollections) {
+      await getAssetsForCollection(srcCollection)
+    }
+    return srcCollections
+  })
+  .then(success(res, 200))
+
+export const pupulateCollectionStats = async (req, res, next) => SrcCollection
+  .find(
+    { status: 'populated' },
+    {},
+    {
+      sort: {
+        totalAssets: -1
+      }
+    }
+  )
+  .populate('provider')
+  .then(srcCollections => Promise.all(srcCollections.map(extractStatsFromCollectionAssets)))
+  .then(srcCollections => srcCollections.map(srcCollection => srcCollection.view()))
+  .then(success(res, 200))
+
+export const extractStatsFromCollectionAssets = async (collection) => Asset
+  .find(
+    { srcCollection: collection.id },
+    { tokenId: 1 },
+    {
+      sort: {
+        tokenId: -1
+      }
+    })
+  .then(async assets => {
+    const tokens = assets.map(asset => asset.tokenId)
+    collection.totalAssetPopulated = assets.length
+    console.log(assets.length, collection.status)
+    collection.maxToken = tokens.shift() ?? 0
+    collection.minToken = tokens.pop() ?? 0
+    return collection.save()
+  })
+
 export const index = ({ querymen: { query, select, cursor } }, res, next) => Asset.count(query)
   .then(count => Asset.find(query, select, cursor)
+  .populate('srcCollection')
     .then((assets) => ({
       count, rows: assets.map((asset) => asset.view())
     })))
@@ -80,15 +136,12 @@ export const findTraitTypesBySrcCollection = ({ query: { srcCollection } }, res,
     .then(success(res))
     .catch(next)
 
-// eslint-disable-next-line camelcase
 export const findTraitValuesBySrcCollectionAndTypeTrait = ({ query: { srcCollection, type_trait } }, res, next) =>
   Asset.aggregate(pipelineFindTraitCollection(srcCollection)).then(r => {
-    // eslint-disable-next-line camelcase
     const traits = r.map(r => [...r.traits]).reduce((a, b) => a.concat(b), [])
-    // eslint-disable-next-line camelcase
     const rows = Array.from(new Set(traits.filter(t => t.trait_type === type_trait).map(t => t.value)))
-    // eslint-disable-next-line camelcase
     return { count: rows.length, rows }
   })
     .then(success(res))
     .catch(next)
+

@@ -15,11 +15,6 @@ import asset from './asset'
 import wallet from './wallet'
 import bid from './bid'
 import placement from './placement'
-import apiKey from './apiKey'
-
-var URLSafeBase64 = require('urlsafe-base64')
-
-const vpk = require('../../vpk.json')
 
 const router = new Router()
 
@@ -47,9 +42,7 @@ const router = new Router()
  * @apiParam {String[]} [fields] Fields to be returned.
  */
 
-
-
-router.get("/", (req, res) => res.json({ holi: process.pid}))
+router.get('/', (req, res) => res.json({ holi: process.pid }))
 
 router.use('/users', user)
 router.use('/auth', auth)
@@ -67,10 +60,5 @@ router.use('/assets', asset)
 router.use('/wallets', wallet)
 router.use('/bids', bid)
 router.use('/placements', placement)
-router.use('/apiKeys', apiKey)
-
-router.get('/key', (req, res, next) => {
-  res.send(URLSafeBase64.decode(vpk.publicKey))
-})
 
 export default router

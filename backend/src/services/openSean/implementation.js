@@ -1,102 +1,100 @@
 import { openSea } from './index'
 import { SrcCollection } from '../../api/srcCollection'
 import { Asset } from '../../api/asset'
+import { CreateCollection, OpenseaCollectionToSrcCollection } from '../../api/srcCollection/controller'
+import { FindKeyPublicKey} from '../../api/provider/controller'
 
-const createAsset = (body) => Asset.create(body)
-const changeCollection = (name, update) => SrcCollection.findOneAndUpdate({ name }, update)
+const createAsset = (body) => Asset.findOne({ tokenId: body.tokenId, srcCollection: body.srcCollection }).then(async (asset) => asset ? await Object.assign(asset, body).save() : await Asset.create(body))
+const changeCollection = async ({ name, slug }, update) => SrcCollection.findOneAndUpdate({ name, slug }, update)
+const addTraitsToCollection = async (idCollection, traits) => SrcCollection
+  .findById(idCollection)
+  .then(async (collection) => {
+    for (const trait of traits) {
+      const existTrait = collection.traits.find(traitInCollection => traitInCollection.key === trait.trait_type)
+      if (existTrait) {
+        if (!existTrait.values.includes(trait.value)) {
+          existTrait.values.push(trait.value)
+        }
+      } else {
+        collection.traits.push({
+          key: trait.trait_type,
+          values: [trait.value]
+        })
+      }
+    }
+    return collection.save()
+  })
 
-const getAssets = async (collection, provider, cursor) => new Promise((resolve, reject) => {
-  const [apikey] = provider.keyId
-
-  openSea(provider.urlBase).getAssets(apikey, {
-    collection_slug: collection.name,
-    limit: 200,
-    cursor: cursor
+const getAssets = async (collection, provider, cursor) => {
+  const apikey = FindKeyPublicKey(provider)
+  return openSea(provider.urlBase).getAssets(apikey, {
+    collection_slug: collection.slug, limit: 200, cursor: cursor
   })
     .then(async response => {
       const { assets, next } = response
       for (const asset of assets) {
-        const body = {
+        const { traits } = asset
+        await addTraitsToCollection(collection.id, traits)
+        await createAsset({
           name: asset.name,
           srcCollection: collection.id,
-          provider: provider.name,
-          apikey: apikey,
-          asset
-        }
-        await createAsset(body)
+          detail: asset,
+          tokenId: asset.token_id
+        })
       }
       if (!next) {
-        resolve()
         return
       }
-      await changeCollection(collection.name, 'Fetching assets')
+      await changeCollection({ name: collection.name, slug: collection.slug }, { status: 'populating' })
       return getAssets(collection, provider, next)
     })
-    .catch((e) => reject(e))
-})
+}
 
-export const fullProcessCreateCollection = (processes) => (srcCollection) => {
-  const { provider } = processes
-  const { name } = srcCollection
+export const getAssetsForCollection = async (srcCollection) => {
+  const { provider } = srcCollection
+  const { name, slug } = srcCollection
   switch (provider.name) {
     case 'opensea': {
-      return changeCollection(name, { status: 'Fetching' })
-        .then(() => {
-          openSea(provider.urlBase).getCollections({ name })
-            .then(async srcCollectionResponse => {
-              await changeCollection(srcCollection.name, {
-                status: 'Fetched',
-                srcCollection: srcCollectionResponse,
-                provider: provider.name
-              })
-              return srcCollection
-            })
-            .then(async srcCollection => getAssets(srcCollection, provider, undefined))
-            .then(() => changeCollection(name, { status: 'Assets Complete' }))
-            .catch(() => changeCollection(name, { status: 'Failed' }))
-        })
+      await changeCollection({ name, slug }, { status: 'Fetching' })
+      await getAssets(srcCollection, provider)
+        .then(() => changeCollection({ name: srcCollection.name, slug: srcCollection.slug }, { status: 'populated' }))
+
+      break
     }
   }
 }
 
-export const findLastOffer = (process) => async (asset) => {
-  console.log('pido evento')
+export const findLastOffer = (provider) => async (asset) => {
   const now = new Date()
   now.setDate(new Date().getDate() - 1)
   const utcMilllisecondsSinceEpoch = now.getTime() + (now.getTimezoneOffset() * 60 * 1000)
   const occurred_after = Math.round(utcMilllisecondsSinceEpoch / 1000)
   const event_type = 'offer_entered'
   const assetStored = await Asset.findById(asset)
-  const { asset: { asset_contract: { address }, token_id } } = assetStored
-  let events = await getEvents({
-    asset_contract_address: address,
-    event_type,
-    occurred_after,
-    token_id
-  }, process.provider, null)
-
+  const { tokenId, detail: { asset_contract: { address } } } = assetStored
+ 
+  let events = await getEvents({asset_contract_address: address, event_type, occurred_after, token_id: tokenId}, provider, null)
   events = events.filter(cursor => cursor.event.payment_token.symbol === 'WETH')
   const max = new Date(Math.max(...events.map(ae => new Date(ae.event_timestamp))))
   return events.find(event => new Date(event.event_timestamp).getTime() === max.getTime())
+  
 }
 let assetsEvents = []
+let collectionsPool = []
+
 export const getEvents = async ({
   occurred_after,
   event_type,
   asset_contract_address,
   token_id
 }, provider, cursor) => new Promise((resolve, reject) => {
-  const [apikey] = provider.keyId
-  console.log(cursor, '_____________________cursor')
+  const apikey = FindKeyPublicKey(provider)
   openSea(provider.urlBase).getEvents(apikey, {
-    occurred_after,
-    event_type,
-    asset_contract_address,
-    token_id,
-    cursor
+    occurred_after, event_type, asset_contract_address, token_id, cursor
   })
     .then(async response => {
       const { asset_events, next } = response
+      console.table(asset_events)
       assetsEvents = [...asset_events.map(ae => ({ event: ae, event_timestamp: ae.event_timestamp })), ...assetsEvents]
       if (process.env.NODE_ENV === 'development') {
         resolve(assetsEvents)
@@ -107,11 +105,38 @@ export const getEvents = async ({
         return
       }
       return getEvents({
-        occurred_after,
-        event_type,
-        asset_contract_address,
-        token_id
+        occurred_after, event_type, asset_contract_address, token_id
       }, provider, next)
     })
     .catch((e) => reject(e))
+})
+
+const getCollectionsFromOpenSea = async (provider, offset = 0) => openSea(provider.urlBase)
+  .getCollectionsAll(offset).then(async response => {
+    const { collections } = response
+    collectionsPool = [...collections, ...collectionsPool]
+    if (collections.length === 0 || offset >= 50000) {
+      return
+    }
+    await storeCollectionsFromOpenSea(collections)
+    return await getCollectionsFromOpenSea(provider, collectionsPool.length)
+  })
+
+const storeCollectionsFromOpenSea = async (collections) => Promise.all(collections
+  .filter(OpenSeaConditionsToStore)
+  .map(OpenseaCollectionToSrcCollection)
+  .map(CreateCollection))
+
+const OpenSeaConditionsToStore = (collectionFromOpenSea) =>
+  collectionFromOpenSea.stats.count > 0 &&
+  collectionFromOpenSea.stats.total_supply > 0 &&
+  collectionFromOpenSea.stats.seven_day_sales > 0 &&
+  collectionFromOpenSea.primary_asset_contracts.length > 0
+
+export const getCollectionsAll = async (provider) => new Promise((resolve) => {
+  switch (provider.name) {
+    case 'opensea': {
+      return getCollectionsFromOpenSea(provider).then(() => resolve(collectionsPool))
+    }
+  }
 })

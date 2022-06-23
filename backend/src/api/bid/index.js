@@ -31,7 +31,7 @@ router.post('/',
   token({ required: true }),
   body({ wallet, minimalBid, maximalBid, outbidAmount, expirationTime, assets }),
   create)
-
+  
 /**
  * @api {get} /bids Retrieve bids
  * @apiName RetrieveBids

@@ -9,19 +9,50 @@ const srcCollectionSchema = new Schema({
     type: String
   },
   provider: {
+    type: Schema.ObjectId,
+    ref: 'Provider'
+  },
+  slug: {
     type: String
   },
-  apikey: {
-    type: String
+  minToken: {
+    type: Number
   },
-  srcCollection: {
+  maxToken: {
+    type: Number
+  },
+  totalAssetPopulated: {
+    type: Number
+  },
+  basePrice: {
+    type: Number,
+    default: 0
+  },
+  totalAssets: {
+    type: Number
+  },
+  detail: {
     type: Object
-  }
+  },
+  traits: [
+    {
+      key: {
+        type: String
+      },
+      values: [
+        {
+          type: String
+        }
+      ]
+    }
+  ]
 }, {
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (obj, ret) => { delete ret._id }
+    transform: (obj, ret) => {
+      delete ret._id
+    }
   }
 })
 
@@ -31,10 +62,15 @@ srcCollectionSchema.methods = {
       // simple view
       id: this.id,
       name: this.name,
-      provider: this.provider,
       status: this.status,
-      apikey: this.apikey,
-      srcCollection: this.srcCollection,
+      provider: this.provider,
+      detail: this.detail,
+      slug: this.slug,
+      minToken: this.minToken,
+      maxToken: this.maxToken,
+      totalAssets: this.totalAssets,
+      totalAssetPopulated: this.totalAssetPopulated,
+      traits: this.traits,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

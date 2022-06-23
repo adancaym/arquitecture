@@ -9,14 +9,11 @@ const assetSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'SrcCollection'
   },
-  provider: {
-    type: String
-  },
-  apikey: {
-    type: String
-  },
-  asset: {
+  detail: {
     type: Object
+  },
+  tokenId: {
+    type: Number
   }
 }, {
   timestamps: true,
@@ -29,13 +26,11 @@ const assetSchema = new Schema({
 assetSchema.methods = {
   view (full) {
     const view = {
-      // simple view
       id: this.id,
       name: this.name,
       srcCollection: this.srcCollection,
-      provider: this.provider,
-      apikey: this.apikey,
-      asset: this.asset,
+      detail: this.detail,
+      tokenId: this.tokenId,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

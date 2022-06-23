@@ -22,35 +22,25 @@ export class Collections extends Controller<CollectionResponse, CollectionCreate
             {type: 'text', key: 'name', label: 'Name'},
             {type: 'readOnlyInTable', key: 'status', label: 'Status'},
             {type: 'readOnlyInTable', key: 'provider', label: 'Provider'},
-            {type: 'readOnlyInTable', key: 'apikey', label: 'Apikey used'},
+            {type: 'readOnlyInTable', key: 'totalAssetPopulated', label: 'Total Assets Populated'},
+            {type: 'readOnlyInTable', key: 'totalAssets', label: 'Total Assets'},
             {type: 'readOnlyInTable', key: 'trais', label: 'Trait Qty',
-                reducer: (o) => <>{o.srcCollection && <p>{Object.keys(o.srcCollection?.collection?.traits).length}</p>}</>
+                reducer: (o) => <>{o.detail && <p>{o.traits.length}</p>}</>
             },
             {
                 type: 'table',
-                key: 'srcCollection',
+                key: 'detail',
                 label: 'Collection',
                 reducer: (o) => {
                     const clone = JSON.parse(JSON.stringify(o))
-                    if (clone.srcCollection) delete clone.srcCollection?.collection?.editors
+                    if (clone.detail) delete clone.detail?.collection?.editors
                     return <>
-                        {clone.srcCollection && <ModalToTable name={'Ver'} size={'lg'}>
+                        {clone.detail && <ModalToTable name={'Ver'} size={'lg'}>
                             <div className="table-responsive" style={{maxHeight: '70vh'}}>
-                                {<JsonToTable json={clone.srcCollection}></JsonToTable>}
+                                {<JsonToTable json={clone.detail}></JsonToTable>}
                             </div>
                         </ModalToTable>}
                     </>
-                }
-            },{
-                type: 'table',
-                key: 'editor',
-                label: 'Editor',
-                reducer: (o) => {
-                    return <ModalToTable name={'Ver'} size={'lg'}>
-                        <div className="table-responsive" style={{maxHeight: '70vh'}}>
-                            {o.srcCollection && <JsonToTable json={{editors: o.srcCollection?.collection?.editors}}></JsonToTable>}
-                        </div>
-                    </ModalToTable>
                 }
             },
         ]);
