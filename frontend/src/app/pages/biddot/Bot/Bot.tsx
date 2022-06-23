@@ -116,7 +116,6 @@ export const Bot = () => {
         .then(collections => collections.filter(
             collection => collection.status === 'populated' &&
                 collection.totalAssetPopulated > 0 &&
-                collection.minToken > 0 &&
                 collection.maxToken > 0
         ))
         .then(collections => setCollectionOptions(collections))
