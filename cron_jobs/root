@@ -1,2 +1,1 @@
-*/1 * * * * sh /bin/my_bash
-*/20 * * * * sh /bin/my_script
+*/1 * * * * /bin/my_bash
