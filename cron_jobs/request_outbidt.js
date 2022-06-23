@@ -8,7 +8,7 @@ const {
 } = process.env;
 
 try {
-    axios.get(`${BACKEND_HOST}:${BACKEND_PORT}/placements//dispatch/outbid`, {
+    axios.get(`${BACKEND_HOST}:${BACKEND_PORT}/placements/dispatch/outbid`, {
         params: {
             access_token: MASTER_KEY,
             limit: 2

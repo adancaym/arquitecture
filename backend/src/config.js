@@ -21,12 +21,7 @@ const config = {
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
     mongo: {
-      uri: requireProcessEnv('MONGO_URI'),
-      options: {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-        useCreateIndex: true
-      }
+      uri: requireProcessEnv('MONGO_URI')
     }
   }
 }

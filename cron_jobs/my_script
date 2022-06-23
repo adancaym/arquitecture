@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "request_colections"
+node /app/request_collection.js

@@ -12,10 +12,11 @@ import {
   findCollectionRangeTokenId,
   findBySrcCollection,
   findTraitTypesBySrcCollection,
-  findTraitValuesBySrcCollectionAndTypeTrait
+  findTraitValuesBySrcCollectionAndTypeTrait, pupulateCollectionAsset, pupulateCollectionStats
 } from './controller'
 import { schema } from './model'
-export Asset, { schema } from './model'
+
+export Asset, { schema } from './model';
 
 const router = new Router()
 const { name, srcCollection, provider, apikey, asset } = schema.tree
@@ -58,11 +59,18 @@ router.get('/',
   query(
     {
       page: {
-        max: 1000
+        max: Infinity
       }
     }
   ),
   index)
+
+router.get('/collection/assets/',
+  // token({ required: true }),
+  pupulateCollectionAsset)
+router.get('/collection/assets/stats',
+  // token({ required: true }),
+  pupulateCollectionStats)
 /**
  * @api {get} /assets/trait_type Retrieve assets by id SrcCollection trait_type and value
  * @apiName RetrieveAssetsTraitType
@@ -117,22 +125,6 @@ router.get('/srcCollection',
   query(),
   findBySrcCollection)
 
-/**
- * @api {get} /assets/srcCollection Retrieve assets by srcCollection
- * @apiName RetrieveAssetsBySrcCollection
- * @apiGroup Asset
- * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiQuery srcCollectio
- * @apiParam {String} srcCollection id SrcCollection.
- * @apiSuccess {Number} count Total amount of assets.
- * @apiSuccess {Object[]} rows List of assets.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 user access only.
- */
-router.get('/type_traits_name',
-  token({ required: true }),
-  findTraitTypesBySrcCollection)
 /**
  * @api {get} /assets/srcCollection Retrieve assets by srcCollection
  * @apiName RetrieveAssetsBySrcCollection

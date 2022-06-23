@@ -11,9 +11,7 @@ const app = express(apiRoot, api)
 const server = http.createServer(app)
 
 console.table(listEndpoints(app))
-
 socketIo(server)
-
 if (mongo.uri) {
   mongoose.connect(mongo.uri, () => {
     console.log('Connection Moongo success')
@@ -22,9 +20,9 @@ if (mongo.uri) {
 mongoose.Promise = Promise
 
 setImmediate(() => {
-  server.listen(port, ip, () => {
-    console.log('Express server listening on port %s, in %s mode', port, env)
-  })
+  server.listen(port, ip, () => console.log(`Express server listening on port ${port}, in ${env} mode`))
 })
 
 export default app
+
+

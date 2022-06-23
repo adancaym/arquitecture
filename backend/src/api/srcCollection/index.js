@@ -2,12 +2,12 @@ import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
-import { create, index, show, update, destroy } from './controller'
+import {create, index, show, update, destroy, importCollections} from './controller'
 import { schema } from './model'
 export SrcCollection, { schema } from './model'
 
 const router = new Router()
-const { name, provider, apikey, srcCollection } = schema.tree
+const { name, provider, detail } = schema.tree
 
 /**
  * @api {post} /srcCollections Create src collection
@@ -28,6 +28,10 @@ router.post('/',
   token({ required: true }),
   body({ name }),
   create)
+
+router.get('/full',
+  body({ name }),
+  importCollections)
 
 /**
  * @api {get} /srcCollections Retrieve src collections
@@ -78,7 +82,7 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ name, provider, apikey, srcCollection }),
+  body({ name, provider, detail }),
   update)
 
 /**

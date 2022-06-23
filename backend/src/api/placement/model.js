@@ -71,8 +71,8 @@ placementSchema.methods = {
         infura_key: process.env.WEB3_PROVIDERS_HTTP_PROVIDER,
         priv_key: this.wallet.secret, // wallet.privateKey,
         provider_key: this.asset.apikey, // open sea key
-        token_id: this.asset.asset.token_id, // asset
-        contract_address: this.asset.asset.asset_contract.address, // contract address hex
+        token_id: this.asset.tokenId, // asset
+        contract_address: this.asset.detail.asset_contract.address, // contract address hex
         acc_address: this.wallet.name, //
         desired_bid: this.bid.minimalBid, // form bid
         max_bid: this.bid.maximalBid, // form bid

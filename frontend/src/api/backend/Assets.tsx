@@ -14,9 +14,8 @@ export class Assets extends Controller<AssetResponse, AssetCreate> {
         super('assets');
         this.table = new EntityHtmlHelper<AssetResponse>([
             {type: 'id', key: 'id', label: 'id'},
-            {type: 'text', key: 'name', label: 'Name'},
-            {type: 'readOnlyInTable', key: 'provider', label: 'Provider'},
-            {type: 'readOnlyInTable', key: 'apikey', label: 'Apikey used'},
+            {type: 'readOnlyInTable', key: 'name', label: 'Name'},
+            {type: 'readOnlyInTable', key: 'tokenId', label: 'Token Id'},
             {
                 type: 'table',
                 key: 'srcCollection',
@@ -24,7 +23,7 @@ export class Assets extends Controller<AssetResponse, AssetCreate> {
                 reducer: (o) => {
                     return <ModalToTable name={'Ver'} size={'lg'}>
                         <div className="table-responsive" style={{maxHeight: '70vh'}}>
-                            {<JsonToTable json={o.asset.traits}></JsonToTable>}
+                            {<JsonToTable json={o.detail.traits}></JsonToTable>}
                         </div>
                     </ModalToTable>
                 }
