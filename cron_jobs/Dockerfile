@@ -1,21 +1,20 @@
-FROM alpine:latest
+FROM node:18-alpine3.15
+
+# Install curlt 
+RUN apk add --no-cache curl
 WORKDIR /app
-COPY my_bash /bin/my_bash
-COPY my_script /bin/my_script
+# Copy Scripts to Docker Image
+COPY scripts/*.sh /usr/local/bin/
+COPY scripts/*.js /app/
 COPY package.json /app/package.json
-COPY request_placement.js /app/request_placement.js
-COPY request_outbidt.js /app/request_outbidt.js
-COPY request_collection.js /app/request_collection.js
-
-COPY root /var/spool/cron/crontabs/root
-
-RUN apk add --update nodejs npm
-RUN npm install yarn -g
 RUN npm install
-RUN chmod +x /bin/my_bash
-RUN chmod +x /bin/my_script
-RUN chmod +x /app/request_placement.js
-RUN chmod +x /app/request_outbidt.js
-RUN chmod +x /app/request_collection.js
+# Add the cron job
 
-CMD crond -l 2 -f
+RUN echo ' *  */3  *  *  * /usr/local/bin/request_assets.sh' >> /etc/crontabs/root
+RUN echo ' */5  *  *  *  * /usr/local/bin/request_collection.sh' >> /etc/crontabs/root
+RUN echo ' */1  *  *  *  * /usr/local/bin/request_outbid.sh' >> /etc/crontabs/root
+RUN echo ' */1  *  *  *  * /usr/local/bin/request_placement.sh' >> /etc/crontabs/root
+RUN echo ' */1  *  *  *  * /usr/local/bin/request_stats.sh' >> /etc/crontabs/root
+
+# Run crond  -f for Foreground 
+CMD ["/usr/sbin/crond", "-f"]

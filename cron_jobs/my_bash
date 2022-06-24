@@ -1,5 +1,0 @@
-#!/bin/sh
-echo "request_placement"
-node /app/request_placement.js
-echo "request_outbidt"
-node /app/request_outbidt.js

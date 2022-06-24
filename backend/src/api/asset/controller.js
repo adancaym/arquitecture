@@ -29,9 +29,8 @@ export const pupulateCollectionAsset = async (req, res, next) => SrcCollection
     for (const srcCollection of srcCollections) {
       await getAssetsForCollection(srcCollection)
     }
-    return srcCollections
   })
-  .then(success(res, 200))
+  .then(()=>success(res, 200)({}))
 
 export const pupulateCollectionStats = async (req, res, next) => SrcCollection
   .find(
@@ -45,8 +44,7 @@ export const pupulateCollectionStats = async (req, res, next) => SrcCollection
   )
   .populate('provider')
   .then(srcCollections => Promise.all(srcCollections.map(extractStatsFromCollectionAssets)))
-  .then(srcCollections => srcCollections.map(srcCollection => srcCollection.view()))
-  .then(success(res, 200))
+  .then(()=>success(res, 200)({}))
 
 export const extractStatsFromCollectionAssets = async (collection) => Asset
   .find(
@@ -60,7 +58,6 @@ export const extractStatsFromCollectionAssets = async (collection) => Asset
   .then(async assets => {
     const tokens = assets.map(asset => asset.tokenId)
     collection.totalAssetPopulated = assets.length
-    console.log(assets.length, collection.status)
     collection.maxToken = tokens.shift() ?? 0
     collection.minToken = tokens.pop() ?? 0
     return collection.save()

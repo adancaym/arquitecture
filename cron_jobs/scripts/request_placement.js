@@ -42,7 +42,7 @@ try {
           .catch((err) => {
             axios.put(
               `${BACKEND_HOST}:${BACKEND_PORT}/placements/dispatched/error/${id}`,
-              { error: err.response.data },
+              { error: err.response?.data },
               {
                 params: {
                   access_token: MASTER_KEY,
@@ -53,5 +53,5 @@ try {
       }
     });
 } catch (error) {
-  console.log(error);
+  console.log(error, "Fetch placement error");
 }
