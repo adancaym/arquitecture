@@ -19,9 +19,9 @@ export const pupulateCollectionAsset = async (req, res, next) => SrcCollection
     {},
     {
       sort: {
-        totalAssets: 1
+        totalAssets: -1
       },
-      limit: 5
+      limit: 2
     }
   )
   .populate('provider')

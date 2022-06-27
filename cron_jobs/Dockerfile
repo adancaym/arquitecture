@@ -14,7 +14,7 @@ COPY package.json /app/package.json
 RUN npm install
 # Add the cron job
 
-RUN echo ' */2  *  *  *  * /usr/local/bin/request_assets.sh' >> /etc/crontabs/root
+RUN echo ' *  */1  *  *  * /usr/local/bin/request_assets.sh' >> /etc/crontabs/root
 RUN echo ' */5  *  *  *  * /usr/local/bin/request_collection.sh' >> /etc/crontabs/root
 RUN echo ' */1  *  *  *  * /usr/local/bin/request_outbid.sh' >> /etc/crontabs/root
 RUN echo ' */1  *  *  *  * /usr/local/bin/request_placement.sh' >> /etc/crontabs/root
