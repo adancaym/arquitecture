@@ -70,6 +70,7 @@ services:
     networks:
       - shvl-net
   nginx-balancer:
+    restart: always
     image: nginx:latest
     hostname: nginx-balancer
     container_name: nginx-balancer
@@ -93,6 +94,7 @@ services:
       - ./nginx-balancer/certbot/www/:/var/www/certbot/:rw
       - ./nginx-balancer/certbot/conf/:/etc/letsencrypt/:rw
   mongo:
+    restart: always
     hostname: mongo
     container_name: mongo
     image: 'mongo'
