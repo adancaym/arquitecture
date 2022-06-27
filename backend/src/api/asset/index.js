@@ -11,8 +11,9 @@ import {
   findBySrcCollectionAndTraitValue,
   findCollectionRangeTokenId,
   findBySrcCollection,
-  findTraitTypesBySrcCollection,
-  findTraitValuesBySrcCollectionAndTypeTrait, pupulateCollectionAsset, pupulateCollectionStats
+  findTraitValuesBySrcCollectionAndTypeTrait,
+  pupulateCollectionAsset,
+  pupulateCollectionStats
 } from './controller'
 import { schema } from './model'
 
