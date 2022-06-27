@@ -116,7 +116,7 @@ export const Bot = () => {
             params:
                 {
                     fields: 'id, name, slug, status, totalAssetPopulated, traits, minToken, maxToken',
-                    limit: '1000',
+                    limit: '100',
                 }
         })
         .then(response => response.rows)
