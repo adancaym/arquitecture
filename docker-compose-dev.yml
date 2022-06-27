@@ -18,7 +18,7 @@ services:
       - mongo
     environment:
       - PORT=5001
-      - MONGO_URI=mongodb://shvldb:shvldb2022@mongo:27017/backend-prod
+      - MONGO_URI=mongodb://shvl:shvl2022@mongo:27017/backend-prod
       - DEFAULT_EMAIL_HOST_BACKEND=http://mail
       - CHOKIDAR_USEPOLLING=true
       - DEFAULT_EMAIL_HOST_PORT_BACKEND=1025

@@ -22,7 +22,7 @@ export const importCollections = async (req, res, next) => {
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   SrcCollection.count(query)
     .then((count) =>
-      SrcCollection.find(query, select, { ...cursor, limit: cursor.limit === 1000 ? undefined : cursor.limit }).then((srcCollections) => ({
+      SrcCollection.find(query, select, { ...cursor, limit: cursor.limit === 100 ? undefined : cursor.limit }).then((srcCollections) => ({
         count,
         rows: srcCollections.map((srcCollection) => srcCollection.view())
       }))

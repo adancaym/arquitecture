@@ -51,10 +51,9 @@ export class BackendConsumer extends ApiConsumer {
     list<R>(params?:IOptions): Promise<ResponseFormat<R>> {
         return super
             .list<R>(
-                this.useQueryParams ? this.pagination.getParams() : undefined,
+                this.useQueryParams ? {...this.pagination.getParams(), ...params} : undefined,
                 {
-                    headers: { 'Authorization': this.getAccessToken() },
-                        ...{...params}
+                    headers: { 'Authorization': this.getAccessToken() }
                 }
             );
     }

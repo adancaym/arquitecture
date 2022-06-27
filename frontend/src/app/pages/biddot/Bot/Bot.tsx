@@ -35,6 +35,7 @@ interface FormBotProps {
 
 const assetsController = new Assets();
 const collectionController = new Collections();
+collectionController.useQueryParams = true;
 const bidsController = new Bids();
 
 export const Bot = () => {
