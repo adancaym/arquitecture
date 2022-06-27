@@ -7,7 +7,8 @@ const assetSchema = new Schema({
   },
   srcCollection: {
     type: Schema.ObjectId,
-    ref: 'SrcCollection'
+    ref: 'SrcCollection',
+    required: true
   },
   detail: {
     type: Object
