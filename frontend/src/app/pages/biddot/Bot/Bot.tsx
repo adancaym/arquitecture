@@ -1,20 +1,20 @@
-import { Input } from "../../../../components/common/input/Input";
-import { Accordion, Card } from "react-bootstrap";
-import { useFormik } from "formik";
+import {Input} from "../../../../components/common/input/Input";
+import {Accordion, Card} from "react-bootstrap";
+import {useFormik} from "formik";
 import * as Yup from "yup";
-import { Collections } from "../../../../api/backend/Collections";
+import {Collections} from "../../../../api/backend/Collections";
 import * as React from "react";
-import { Assets } from "../../../../api/backend/Assets";
-import { useEffect, useState } from "react";
-import { OptionsFieldEntityHtmlHelper } from "../../../../api/core/EntityHtmlHelper";
+import {Assets} from "../../../../api/backend/Assets";
+import {useEffect, useState} from "react";
+import {OptionsFieldEntityHtmlHelper} from "../../../../api/core/EntityHtmlHelper";
 
-import { Wallets } from "../../../../api/backend/Wallets";
-import { LoadingContent } from "../../../../components/common/LoadingContent";
-import { Bids } from "../../../../api/backend/Bids";
-import { BidCreate, BidResponse } from '../../../../api/Types';
-import { ModalCreatecollection } from "./ModalCreateCollection";
-import { Navigate } from "react-router-dom";
-import { SrcCollection } from "../../../../api/shvl/Collection";
+import {Wallets} from "../../../../api/backend/Wallets";
+import {LoadingContent} from "../../../../components/common/LoadingContent";
+import {Bids} from "../../../../api/backend/Bids";
+import {BidCreate, BidResponse} from '../../../../api/Types';
+import {ModalCreatecollection} from "./ModalCreateCollection";
+import {Navigate} from "react-router-dom";
+import {SrcCollection} from "../../../../api/shvl/Collection";
 
 interface FormBotProps {
     srcCollection: string | undefined;
@@ -89,7 +89,7 @@ export const Bot = () => {
         traitValues: Yup.string(),
     });
 
-    const { handleChange, values, errors, handleSubmit, setFieldValue, isValid, isSubmitting } = useFormik<FormBotProps>({
+    const {handleChange, values, errors, handleSubmit, setFieldValue, isValid, isSubmitting} = useFormik<FormBotProps>({
         initialValues: {
             srcCollection: undefined,
             wallet: undefined,
@@ -111,8 +111,16 @@ export const Bot = () => {
     })
 
 
-    const fetchCollections = () => collectionController.list<SrcCollection>({ params: { fields: 'id, name, slug, status, totalAssetPopulated, traits, minToken, maxToken' } })
+    const fetchCollections = () => collectionController.list<SrcCollection>(
+        {
+            params:
+                {
+                    fields: 'id, name, slug, status, totalAssetPopulated, traits, minToken, maxToken',
+                    limit: '1000',
+                }
+        })
         .then(response => response.rows)
+
         .then(collections => collections.filter(
             collection => collection.status === 'populated' &&
                 collection.totalAssetPopulated > 0 &&
@@ -127,8 +135,8 @@ export const Bot = () => {
 
     useEffect(() => {
         setIsLoading(true)
-        new Wallets().myWallets({ params: { fields: 'id,name' } })
-            .then(({ rows }) => setWallets(rows.map(w => ({ value: w.id, name: w.name }))))
+        new Wallets().myWallets({params: {fields: 'id,name'}})
+            .then(({rows}) => setWallets(rows.map(w => ({value: w.id, name: w.name}))))
             .then(() => setIsLoading(false))
     }, [])
 
@@ -144,10 +152,6 @@ export const Bot = () => {
     }, [currentCollection])
 
 
-
-
-
-
     const handleChangeCollection = (e: React.ChangeEvent<any>) => {
         const value = e.target.value;
         setFieldValue('srcCollection', value);
@@ -156,7 +160,7 @@ export const Bot = () => {
     const handleChangeTraitType = (e: React.ChangeEvent<any>) => {
         const value = e.target.value;
         setFieldValue('traitTypes', value);
-        const { values } = currentCollection!.traits.find(t => t.key === value) || { values: [] };
+        const {values} = currentCollection!.traits.find(t => t.key === value) || {values: []};
         setTraitValues(values?.map((value: string) => ({
             value: value,
             name: value,
@@ -164,24 +168,24 @@ export const Bot = () => {
     }
     const handleChangeTraitTypeValue = (e: React.ChangeEvent<any>) => {
         setFieldValue('traitValues', e.target.value)
-        const { srcCollection, traitTypes, traitValues } = values
+        const {srcCollection, traitTypes, traitValues} = values
         if (srcCollection && traitTypes && traitValues) {
             setIsLoading(true);
 
-            assetsController.findBySrcCollectionAndTraitValue(srcCollection, traitTypes, traitValues, { params: { fields: 'id,name' } })
-                .then(({ rows }) => rows.map(a => a.id).forEach(appendAsset))
+            assetsController.findBySrcCollectionAndTraitValue(srcCollection, traitTypes, traitValues, {params: {fields: 'id,name'}})
+                .then(({rows}) => rows.map(a => a.id).forEach(appendAsset))
                 .finally(() => setIsLoading(false))
         }
     };
 
 
     const findAssetsByRange = () => {
-        const { srcCollection, tokenFrom, tokenTo } = values;
+        const {srcCollection, tokenFrom, tokenTo} = values;
         if (srcCollection && tokenFrom && tokenTo) {
             setIsLoading(true);
             assetsController
-                .findCollectionRangeTokenId(srcCollection, tokenFrom, tokenTo, { params: { fields: 'id, name' } })
-                .then(({ rows }) => rows.map(a => a.id).forEach(appendAsset))
+                .findCollectionRangeTokenId(srcCollection, tokenFrom, tokenTo, {params: {fields: 'id, name'}})
+                .then(({rows}) => rows.map(a => a.id).forEach(appendAsset))
                 .finally(() => setIsLoading(false))
         }
     }
@@ -192,7 +196,7 @@ export const Bot = () => {
     }
 
 
-    if (redirect) return <Navigate to='/apps/biddot/trade-history' />
+    if (redirect) return <Navigate to='/apps/biddot/trade-history'/>
 
 
     const FormHeader = () => <LoadingContent isLoading={isLoading}>
@@ -201,8 +205,11 @@ export const Bot = () => {
                 className={'btn btn-info btn-sm'}>
                 NUMBER ASSETS OF COLLECTION: {currentCollection?.totalAssetPopulated}
             </span>}
-            {assetSelected.length > 0 && <span className="btn btn-success  btn-sm">ASSETS SELECET: {assetSelected.length}</span>}
-            {assetSelected.length > 0 && <button className="btn btn-warning btn-sm" onClick={() => setAssetSelected([])}> CLEAR SELECTION </button>}
+            {assetSelected.length > 0 &&
+                <span className="btn btn-success  btn-sm">ASSETS SELECET: {assetSelected.length}</span>}
+            {assetSelected.length > 0 &&
+                <button className="btn btn-warning btn-sm" onClick={() => setAssetSelected([])}> CLEAR
+                    SELECTION </button>}
             <ModalCreatecollection title={'Create collection'} callback={fetchCollections}
             />
         </div>
@@ -216,7 +223,7 @@ export const Bot = () => {
             <form onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="col-12">
-                        <FormHeader />
+                        <FormHeader/>
                         <Input
                             label={'Collection'}
                             className={'form-control'}
@@ -324,7 +331,7 @@ export const Bot = () => {
                                                         </div>
                                                         <div className="col-12 d-flex justify-content-end">
                                                             <button type={'button'} onClick={findAssetsByRange}
-                                                                className={'fa fa-search btn btn-info btn-sm mt-5'}>Search
+                                                                    className={'fa fa-search btn btn-info btn-sm mt-5'}>Search
                                                                 assets
                                                             </button>
                                                         </div>
@@ -360,7 +367,7 @@ export const Bot = () => {
                                                         </div>
                                                         <div className="col-12 d-flex justify-content-end">
                                                             <button type={'button'} onClick={handleChangeTraitTypeValue}
-                                                                className={'fa fa-search btn btn-info btn-sm mt-5'}>Search
+                                                                    className={'fa fa-search btn btn-info btn-sm mt-5'}>Search
                                                                 assets
                                                             </button>
                                                         </div>
@@ -377,7 +384,7 @@ export const Bot = () => {
                 </div>
                 <div className="row">
                     <div className="col-12 d-flex justify-content-end mt-5">
-                        <LoadingContent isLoading={isSubmitting} >
+                        <LoadingContent isLoading={isSubmitting}>
                             <button
                                 className={`btn btn-sm ${!isValid || assetSelected.length === 0 ? 'btn-danger' : 'btn-success'}`}
                                 type={'submit'}
