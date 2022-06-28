@@ -1,5 +1,5 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const {OpenSeaPort} = require('opensea-js')
+const {OpenSeaSDK} = require('opensea-js')
 
 
 const place_a_bid = async (body) => {
@@ -38,7 +38,7 @@ const web3provider = (infura_key, priv_key) => {
 
 const createSeaport = (provider, opensea_key) => {
     try {
-        return new OpenSeaPort(provider, {
+        return new OpenSeaSDK(provider, {
             networkName: process.env.NETWORK_OPENSEA_PORT,
             apiKey: opensea_key,
         });
@@ -51,7 +51,8 @@ const place_bid = async (seaport, token_id, token_address, acc_address, bidOffer
     try {
         return seaport.createBuyOrder({
             asset: {
-                tokenId: token_id, tokenAddress: token_address,
+                tokenId: token_id,
+                tokenAddress: token_address,
             },
             accountAddress: acc_address,
             startAmount: parseFloat(bidOffer).toFixed(18),
