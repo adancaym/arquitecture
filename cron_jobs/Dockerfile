@@ -15,9 +15,9 @@ RUN npm install
 # Add the cron job
 
 RUN echo ' *  */1  *  *  * /usr/local/bin/request_assets.sh' >> /etc/crontabs/root
-RUN echo ' */5  *  *  *  * /usr/local/bin/request_collection.sh' >> /etc/crontabs/root
-RUN echo ' */1  *  *  *  * /usr/local/bin/request_outbid.sh' >> /etc/crontabs/root
-RUN echo ' */1  *  *  *  * /usr/local/bin/request_placement.sh' >> /etc/crontabs/root
-RUN echo ' */1  *  *  *  * /usr/local/bin/request_stats.sh' >> /etc/crontabs/root
+RUN echo ' *  */1  *  *  * /usr/local/bin/request_collection.sh' >> /etc/crontabs/root
+RUN echo ' */10  *  *  *  * /usr/local/bin/request_outbid.sh' >> /etc/crontabs/root
+RUN echo ' */10  *  *  *  * /usr/local/bin/request_placement.sh' >> /etc/crontabs/root
+RUN echo ' */10  *  *  *  * /usr/local/bin/request_stats.sh' >> /etc/crontabs/root
 # Run crond  -f for Foreground
 CMD ["/usr/sbin/crond", "-f"]
