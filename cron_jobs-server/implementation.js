@@ -56,7 +56,7 @@ const place_bid = async (seaport, token_id, token_address, acc_address, bidOffer
                 tokenAddress: token_address,
             },
             accountAddress: acc_address,
-            startAmount: parseFloat(bidOffer).toFixed(18),
+            startAmount: parseFloat(bidOffer),
             expirationTime: exp_time_unix,
         }
         console.log(bid)
