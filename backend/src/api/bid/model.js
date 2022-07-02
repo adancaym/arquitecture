@@ -42,7 +42,7 @@ bidSchema.methods = {
       assets.push(
         {
           ...assetView,
-          placements: await Placement.find({ bid: this.id, asset: assetView.id })
+          placements: await Placement.find({ bid: this.id, asset: assetView.id }).then(placements => placements.map(placement => placement.view()))
         })
     }
     return {

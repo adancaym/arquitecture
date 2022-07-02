@@ -497,6 +497,7 @@ export interface Placement {
     __v: number;
     id: string;
     order?: Order;
+    error: any
 }
 
 export interface Asset {

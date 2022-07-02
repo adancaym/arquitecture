@@ -1,5 +1,5 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const {OpenSeaSDK} = require('opensea-js')
+const {OpenSeaSDK, OpenSeaPort} = require('opensea-js')
 
 
 const place_a_bid = async (body) => {
@@ -24,6 +24,7 @@ const place_a_bid = async (body) => {
 }
 
 const web3provider = (infura_key, priv_key) => {
+    console.log("infura_key", infura_key)
     try {
         const privateKeys = [priv_key.toString()];
         return new HDWalletProvider({

@@ -68,8 +68,12 @@ const PlacementComponent = (props: { placement: Placement }) => {
             </tr>
             <tr>
                 <th>Status</th>
-                <td>{props.placement.status}</td>
+                <td>{props.placement.status.toUpperCase()}</td>
             </tr>
+            {props.placement.error && <tr>
+                <th>Error</th>
+                <td>{props.placement.error.error}</td>
+            </tr>}
             <tr>
                 <th>Updated At</th>
                 <td>{new Date(props.placement.updatedAt).toLocaleString()}</td>

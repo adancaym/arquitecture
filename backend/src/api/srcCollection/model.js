@@ -82,7 +82,7 @@ srcCollectionSchema.methods = {
   }
 }
 
-srcCollectionSchema.plugin(mongooseKeywords, { paths: ['name'] })
+srcCollectionSchema.plugin(mongooseKeywords, { paths: ['name', 'status'] })
 const model = mongoose.model('SrcCollection', srcCollectionSchema)
 
 export const schema = model.schema
