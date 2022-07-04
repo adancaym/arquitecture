@@ -6,13 +6,23 @@ import bodyParser from 'body-parser'
 import { errorHandler as queryErrorHandler } from 'querymen'
 import { errorHandler as bodyErrorHandler } from 'bodymen'
 import { env } from '../../config'
-
+const whitelist = ['http://localhost:3000', 'https://shvl.ai', 'http://shvl.ai']
+const corsOptionsDelegate = function (req, callback) {
+  let corsOptions;
+  console.log(whitelist.includes(req.headers.origin))
+  if (whitelist.includes(req.headers.origin)) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
 export default (apiRoot, routes) => {
   const app = express()
 
   /* istanbul ignore next */
   if (env === 'production' || env === 'development') {
-    app.use(cors())
+    app.use(cors(corsOptionsDelegate))
     app.use(compression())
     app.use(morgan('dev'))
   }

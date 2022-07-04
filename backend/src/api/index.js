@@ -15,6 +15,7 @@ import asset from './asset'
 import wallet from './wallet'
 import bid from './bid'
 import placement from './placement'
+import logs, { Logs } from './logs'
 
 const router = new Router()
 
@@ -41,24 +42,35 @@ const router = new Router()
  * @apiParam {String[]} [sort=-createdAt] Order of returned items.
  * @apiParam {String[]} [fields] Fields to be returned.
  */
-
+const logger = (req, res, next) => {
+  console.log('paso')
+  res.on('finish', () => {
+    console.log('creo')
+    Logs.create({
+      request: { headers: req.headers, body: req.body, params: req.params, query: req.query, url: req.url },
+      response: { statusCode: res.statusCode, headers: res.headers, body: res.body }
+    })
+  })
+  next()
+}
 router.get('/', (req, res) => res.json({ holi: process.pid }))
 
-router.use('/users', user)
-router.use('/auth', auth)
-router.use('/password-resets', passwordReset)
-router.use('/files', file)
-router.use('/messages', message)
-router.use('/menus', menu)
-router.use('/groups', groups)
-router.use('/providers', provider)
-router.use('/suscriptions', suscription)
-router.use('/processes', processs)
-router.use('/catalogs', catalogs)
-router.use('/srcCollections', srcCollection)
-router.use('/assets', asset)
-router.use('/wallets', wallet)
-router.use('/bids', bid)
-router.use('/placements', placement)
+router.use('/users', logger, user)
+router.use('/auth', logger, auth)
+router.use('/password-resets', logger, passwordReset)
+router.use('/files', logger, file)
+router.use('/messages', logger, message)
+router.use('/menus', logger, menu)
+router.use('/groups', logger, groups)
+router.use('/providers', logger, provider)
+router.use('/suscriptions', logger, suscription)
+router.use('/processes', logger, processs)
+router.use('/catalogs', logger, catalogs)
+router.use('/srcCollections', logger, srcCollection)
+router.use('/assets', logger, asset)
+router.use('/wallets', logger, wallet)
+router.use('/bids', logger, bid)
+router.use('/placements', logger, placement)
+router.use('/logs', logger, logs)
 
 export default router
