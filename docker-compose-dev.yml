@@ -4,13 +4,13 @@ volumes:
     external: true
   portainer_data:
     external: true
-
 services:
   backend:
+    image: backend
     hostname: backend
     links:
       - mongo
-    working_dir: /home/node/app
+    working_dir: /app
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -30,13 +30,14 @@ services:
       - API_ROOT=/
       - WEB3_PROVIDERS_HTTP_PROVIDER=https://rinkeby.infura.io/v3/3474ad1afab24ab49d8874963e26eeb7
     volumes:
-      - ./backend:/home/node/app
+      - ./backend/src:/app/src
     ports:
       - "5001:5001"
     command: "npm run dev"
     networks:
       - shvl-net
   mongo:
+
     hostname: mongo
     container_name: mongo
     image: 'mongo'
@@ -51,6 +52,7 @@ services:
     networks:
       - shvl-net
   cron-jobs:
+    image: cron-jobs
     restart: always
     hostname: cron-jobs
     container_name: cron-jobs
@@ -69,13 +71,14 @@ services:
       - OPENSEA_API_KEY=2f6f419a083c46de9d83ce3dbe7db601
     build:
       context: ./cron_jobs
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     networks:
       - shvl-net
     depends_on:
       - backend
       - cron-jobs-server
   cron-jobs-server:
+    image: cron-jobs-server
     restart: always
     hostname: cron-jobs-server
     container_name: cron-jobs-server
@@ -84,7 +87,7 @@ services:
       - ./cron_jobs-server:/app
     build:
       context: ./cron_jobs-server
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     networks:
       - shvl-net
     depends_on:

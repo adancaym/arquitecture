@@ -5,7 +5,9 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import { errorHandler as queryErrorHandler } from 'querymen'
 import { errorHandler as bodyErrorHandler } from 'bodymen'
-import { env } from '../../config'
+import xss from 'xss-clean'
+
+
 const whitelist = ['http://localhost:3000', 'https://shvl.ai', 'http://shvl.ai']
 const corsOptionsDelegate = function (req, callback) {
   let corsOptions;
@@ -19,17 +21,15 @@ const corsOptionsDelegate = function (req, callback) {
 }
 export default (apiRoot, routes) => {
   const app = express()
-
-  /* istanbul ignore next */
-  if (env === 'production' || env === 'development') {
-    app.use(cors(corsOptionsDelegate))
-    app.use(compression())
-    app.use(morgan('dev'))
-  }
+  app.use(cors(corsOptionsDelegate))
+  app.use(compression())
+  app.use(morgan('dev'))
+  app.use(xss())
   app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }))
   app.use(bodyParser.json({ limit: '50mb' }))
-  app.use(apiRoot, routes)
   app.use(queryErrorHandler())
   app.use(bodyErrorHandler())
+  app.use(apiRoot, routes)
+
   return app
 }

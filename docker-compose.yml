@@ -7,11 +7,12 @@ volumes:
 
 services:
   backend:
+    image: backend
     restart: always
     hostname: backend
     links:
       - mongo
-    working_dir: /home/node/app
+    working_dir: /app
     build:
       context: ./backend
       dockerfile: Dockerfile-prod
@@ -31,13 +32,14 @@ services:
       - API_ROOT=/
       - WEB3_PROVIDERS_HTTP_PROVIDER=https://mainnet.infura.io/v3/3474ad1afab24ab49d8874963e26eeb7
     volumes:
-      - ./backend:/home/node/app
+      - ./backend/src:/app/src
     ports:
       - "5001"
     command: "npm run start"
     networks:
       - shvl-net
   frontend:
+    image: frontend
     restart: always
     hostname: frontend
     build:

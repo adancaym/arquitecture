@@ -42,18 +42,14 @@ const router = new Router()
  * @apiParam {String[]} [sort=-createdAt] Order of returned items.
  * @apiParam {String[]} [fields] Fields to be returned.
  */
-const logger = (req, res, next) => {
-  console.log('paso')
+const logger = async (req, res, next) => {
+  const log = Logs.create({ request: { headers: req.headers, body: req.body, params: req.params, query: req.query, url: req.url, all: JSON.stringify(req) } })
   res.on('finish', () => {
-    console.log('creo')
-    Logs.create({
-      request: { headers: req.headers, body: req.body, params: req.params, query: req.query, url: req.url },
-      response: { statusCode: res.statusCode, headers: res.headers, body: res.body }
-    })
+    log.response = { statusCode: res.statusCode, headers: res.headers, body: res.body, all: JSON.stringify(res) }
   })
   next()
 }
-router.get('/', (req, res) => res.json({ holi: process.pid }))
+router.get('/', logger, (req, res) => res.json({ holi: process.pid }))
 
 router.use('/users', logger, user)
 router.use('/auth', logger, auth)
