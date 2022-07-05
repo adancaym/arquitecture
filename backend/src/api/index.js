@@ -42,10 +42,26 @@ const router = new Router()
  * @apiParam {String[]} [sort=-createdAt] Order of returned items.
  * @apiParam {String[]} [fields] Fields to be returned.
  */
+// safely handles circular references
+JSON.safeStringify = (obj, indent = 2) => {
+  let cache = []
+  const retVal = JSON.stringify(
+    obj,
+    (key, value) =>
+      typeof value === 'object' && value !== null
+        ? cache.includes(value)
+          ? undefined // Duplicate reference found, discard key
+          : cache.push(value) && value // Store value in our collection
+        : value,
+    indent
+  )
+  cache = null
+  return retVal
+}
 const logger = async (req, res, next) => {
-  const log = Logs.create({ request: { headers: req.headers, body: req.body, params: req.params, query: req.query, url: req.url, all: JSON.stringify(req) } })
+  const log = Logs.create({ request: { headers: req.headers, body: req.body, params: req.params, query: req.query, url: req.url, all: JSON.safeStringify(req) } })
   res.on('finish', () => {
-    log.response = { statusCode: res.statusCode, headers: res.headers, body: res.body, all: JSON.stringify(res) }
+    log.response = { statusCode: res.statusCode, headers: res.headers, body: res.body, all: JSON.safeStringify(res) }
   })
   next()
 }
