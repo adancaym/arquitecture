@@ -60,8 +60,9 @@ JSON.safeStringify = (obj, indent = 2) => {
 }
 const logger = async (req, res, next) => {
   const log = Logs.create({ request: { headers: req.headers, body: req.body, params: req.params, query: req.query, url: req.url, all: JSON.safeStringify(req) } })
-  res.on('finish', () => {
+  res.on('finish', async () => {
     log.response = { statusCode: res.statusCode, headers: res.headers, body: res.body, all: JSON.safeStringify(res) }
+    await log.save()
   })
   next()
 }
