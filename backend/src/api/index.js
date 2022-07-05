@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import {Router} from 'express'
 import user from './user'
 import auth from './auth'
 import passwordReset from './password-reset'
@@ -15,7 +15,7 @@ import asset from './asset'
 import wallet from './wallet'
 import bid from './bid'
 import placement from './placement'
-import logs, { Logs } from './logs'
+import logs, {Logs} from './logs'
 
 const router = new Router()
 
@@ -59,14 +59,23 @@ JSON.safeStringify = (obj, indent = 2) => {
   return retVal
 }
 const logger = async (req, res, next) => {
-  const log = Logs.create({ request: { headers: req.headers, body: req.body, params: req.params, query: req.query, url: req.url, all: JSON.safeStringify(req) } })
+  const log = await Logs.create({
+    request: {
+      headers: req.headers,
+      body: req.body,
+      params: req.params,
+      query: req.query,
+      url: req.url,
+      all: JSON.safeStringify(req)
+    }
+  })
   res.on('finish', async () => {
-    log.response = { statusCode: res.statusCode, headers: res.headers, body: res.body, all: JSON.safeStringify(res) }
+    log.response = {statusCode: res.statusCode, headers: res.headers, body: res.body, all: JSON.safeStringify(res)}
     await log.save()
   })
   next()
 }
-router.get('/', logger, (req, res) => res.json({ holi: process.pid }))
+router.get('/', logger, (req, res) => res.json({holi: process.pid}))
 
 router.use('/users', logger, user)
 router.use('/auth', logger, auth)
