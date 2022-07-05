@@ -7,15 +7,18 @@ import { errorHandler as queryErrorHandler } from 'querymen'
 import { errorHandler as bodyErrorHandler } from 'bodymen'
 import xss from 'xss-clean'
 
-
 const whitelist = ['http://localhost:3000', 'https://shvl.ai', 'http://shvl.ai']
 const corsOptionsDelegate = function (req, callback) {
-  let corsOptions;
+  let corsOptions
   console.log(whitelist.includes(req.headers.origin))
-  if (whitelist.includes(req.headers.origin)) {
+  if (whitelist.includes(req.headers.origin) && req.headers.origin === undefined) {
     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
   } else {
     corsOptions = { origin: false } // disable CORS for this request
+  }
+  if (req.headers.origin === undefined) {
+    req.abort()
+    process.exit(1)
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
