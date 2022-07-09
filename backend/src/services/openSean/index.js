@@ -6,18 +6,19 @@ export const openSea = (baseURL) => {
       offset: offset >= 50000 ? 50000 : offset,
       limit: 300
     }
-    console.log(params)
-    return axios.get('/collections', {
-      baseURL,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      params
-    }).then(res => res.data)
+    return getCollectionsAll(params)
   }
   // eslint-disable-next-line camelcase
-  const getCollection = ({asset_owner, offset, limit, name}) => axios.get(`collection/${name}`, {
+  const getCollectionsAll = async ({ asset_owner, offset, limit }) => axios.get('/collections', {
+    baseURL,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    params: { asset_owner, offset, limit }
+  }).then(res => res.data)
+  // eslint-disable-next-line camelcase
+  const getCollection = ({ asset_owner, offset, limit, name }) => axios.get(`collection/${name}`, {
     baseURL,
     headers: {
       Accept: 'application/json'
@@ -41,21 +42,6 @@ export const openSea = (baseURL) => {
     occurred_after,
     cursor
   }) => {
-    console.table({
-      apikey, 
-      only_opensea,
-      token_id,
-      asset_contract_address,
-      collection_slug,
-      collection_editor,
-      account_address,
-      event_type,
-      auction_type,
-      occurred_before,
-      occurred_after,
-      cursor
-    })
-
     return axios.get('events', {
       baseURL,
       headers: {
@@ -146,7 +132,8 @@ export const openSea = (baseURL) => {
     getEvents,
     getBundles,
     getAssets,
-    getCollections: getCollection,
-    getCollectionsAll: getCollections
+    getCollection,
+    getCollectionsAll,
+    getCollections
   }
 }

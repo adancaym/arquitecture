@@ -7,7 +7,7 @@ import { errorHandler as queryErrorHandler } from 'querymen'
 import { errorHandler as bodyErrorHandler } from 'bodymen'
 import xss from 'xss-clean'
 
-const whitelist = ['http://localhost:3000', 'https://shvl.ai', 'http://shvl.ai']
+export const whitelist = ['http://localhost:3000', 'https://shvl.ai', 'http://shvl.ai']
 const corsOptionsDelegate = function (req,callback) {
   let corsOptions
   console.log(whitelist.includes(req.headers.origin))

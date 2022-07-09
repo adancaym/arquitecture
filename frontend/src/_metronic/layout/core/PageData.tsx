@@ -81,17 +81,6 @@ const PageTitle  = ({children, description, breadcrumbs}: Props) => {
   return <></>
 }
 
-const PageDescription = ({children}: Children) => {
-  const {setPageDescription} = usePageData()
-  useEffect(() => {
-    if (children) {
-      setPageDescription(children.toString())
-    }
-    return () => {
-      setPageDescription('')
-    }
-  }, [children])
-  return <></>
-}
 
-export {PageDescription, PageTitle, PageDataProvider, usePageData}
+
+export {PageTitle, PageDataProvider, usePageData}

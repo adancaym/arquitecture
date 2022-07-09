@@ -1,4 +1,3 @@
-import { onMessage } from '../socket/controller'
 
 export const onConnection = (io) => (socket) => {
   socket.emit('startClient', { status: 'connected' })

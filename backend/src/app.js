@@ -1,9 +1,11 @@
 import http from 'http'
 import { env, mongo, port, ip, apiRoot } from './config'
 import mongoose from './services/mongoose'
-import express from './services/express'
+import express, {whitelist} from './services/express'
 import api from './api'
 import { socketIo } from './services/socketIo/io'
+import {initSocket} from './api/srcCollection/indexScoket';
+
 
 const app = express(apiRoot, api)
 
@@ -11,7 +13,8 @@ const server = http.createServer(app)
 
 
 
-socketIo(server)
+socketIo(server, whitelist)
+
 if (mongo.uri) {
   mongoose.connect(mongo.uri, () => {
     console.log('Connection Moongo success')

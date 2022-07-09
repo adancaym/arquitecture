@@ -4,7 +4,6 @@ import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
 import {create, index, show, update, destroy, indexFromTo} from './controller'
 import { schema } from './model'
-import {useSocketIo} from '../../services/socketIo/io';
 export Message, { schema } from './model'
 
 const router = new Router()
@@ -27,7 +26,6 @@ const { to, from, message } = schema.tree
 router.post('/',
   token({ required: true }),
   body({ to, from, message }),
-  useSocketIo,
   create)
 
 /**

@@ -16,6 +16,7 @@ import {
     CrudUsers, CrudWallets
 } from "./Cruds";
 import {FormBidDot} from "../pages/biddot/FormBidDot";
+import {CollectioCreate} from "../pages/collection/CollectioCreate";
 
 export const AppsPage = () => (
     <Routes>
@@ -61,5 +62,7 @@ const AppsCollection = () =>
     <Routes>
         <Route>
             <Route path='detail/:slug' element={<CollectionDetail/>}/>
+            <Route path='create' element={<CollectioCreate/>}/>
+
         </Route>
     </Routes>

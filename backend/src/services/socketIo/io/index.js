@@ -1,24 +1,31 @@
+import { initSocket } from '../../../api/srcCollection/indexScoket'
+
 const SocketIo = require('socket.io')
 
-import {onConnection} from "./controller";
+export let io
 
-let io;
-const socketIo = (server) => {
+const socketIo = (server, origin) => {
+  io = SocketIo(server, {
+    cors: {
+      origin,
+      methods: ['GET', 'POST']
+    }
+  })
+  io.on('connection', (socket) => {
+    console.log('a user connected')
+    initSocket(socket)
+  })
 
-  io = SocketIo(server);
-  io.on('connection', onConnection(io));
   io.on('disconnect', () => {
-    io.removeAllListeners();
+    io.removeAllListeners()
     io.close()
   })
-  return io;
+  return io
 }
 
-export const useSocketIo = (req, res, next)=> {
-  req.io = io;
+export const useSocketIo = (req, res, next) => {
+  req.io = io
   next()
 }
 
-
-
-module.exports = {socketIo, useSocketIo}
+module.exports = { socketIo, useSocketIo }

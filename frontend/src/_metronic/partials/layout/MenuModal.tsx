@@ -11,7 +11,7 @@ interface Props extends Children{
   handleClose: () => void
 }
 
-const MenuModal: React.FC<Props> = ({show, handleClose, children}) => {
+export const MenuModal: React.FC<Props> = ({show, handleClose, children}) => {
   const location = useLocation()
   const isFirstRef = useRef(true)
   useEffect(() => {
@@ -174,4 +174,3 @@ const MenuModal: React.FC<Props> = ({show, handleClose, children}) => {
   )
 }
 
-export {MenuModal}

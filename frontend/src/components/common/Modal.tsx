@@ -1,4 +1,4 @@
-import {ReactNode, useState} from "react";
+import {CSSProperties, ReactNode, useState} from "react";
 import {Button, Modal as ModalComponent} from "react-bootstrap";
 
 interface ModalProps {
@@ -11,12 +11,13 @@ interface ModalProps {
     showToolbar?: boolean;
     className?: string,
     buttonTrigger?: JSX.Element | JSX.Element[]
-    size?: 'lg' | 'sm' | 'xl'
+    size?: 'lg' | 'sm' | 'xl',
+    style?: CSSProperties
 }
 
-export const Modal = ({ onAccept, size,onCancel, children, title,showToolbar = true,className = '',buttonTrigger,show,showModal}: ModalProps) => {
+export const Modal = ({ onAccept, size,onCancel, children, title,showToolbar = true,className = '',buttonTrigger,show,showModal, style}: ModalProps) => {
     return <>
-        {buttonTrigger ? <button type={'button'} className={className} onClick={showModal}> {buttonTrigger}</button> :
+        {buttonTrigger ? <button style={style} type={'button'} className={className} onClick={showModal}> {buttonTrigger}</button> :
             <button type={'button'} className={className} onClick={showModal}> {title}</button>}
         <ModalComponent size={size} show={show} onHide={onCancel}>
             <ModalComponent.Header closeButton>
